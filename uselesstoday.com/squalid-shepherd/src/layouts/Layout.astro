@@ -1,0 +1,164 @@
+---
+import "../styles/global.css";
+import FluidCursor from "../components/FluidCursor.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  /** Site-root-relative path of this page, e.g. "/privacy/". Drives canonical + og:url. */
+  path?: string;
+  /** Optional extra JSON-LD (e.g. breadcrumbs, ContactPage) injected into <head>. */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  /** Keep this page out of search results (error pages). Drops canonical too. */
+  noindex?: boolean;
+}
+
+const SITE = "https://uselesstoday.com";
+
+const {
+  title = "The Useless Web — Useless Websites to Waste Time | Useless Today",
+  description = "The useless web, upgraded. Useless Today is a wall of curated useless websites plus a 'take me to a useless website' button. Waste time, gloriously.",
+  image = "/og-image.png",
+  path = "/",
+  schema,
+  noindex = false,
+} = Astro.props;
+
+const isHome = path === "/";
+const canonical = SITE + path;
+const ogImage = new URL(image, SITE).href;
+
+const keywords = [
+  "useless web",
+  "the useless web",
+  "useless websites",
+  "useless today",
+  "take me to a useless website",
+  "useless facts",
+  "useless box",
+  "useless synonym",
+  "another word for useless",
+  "useless day",
+  "useless",
+].join(", ");
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Useless Today",
+  alternateName: "The Useless Web",
+  url: SITE + "/",
+  description,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Set theme before paint to avoid a flash of the wrong color scheme. -->
+    <script is:inline>
+      (function () {
+        try {
+          var t =
+            localStorage.getItem("ut_theme") ||
+            (window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light");
+          document.documentElement.dataset.theme = t;
+        } catch (e) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="UseLess" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-BFWTJ0ZE1X"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-BFWTJ0ZE1X");
+    </script>
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
+    <meta name="author" content="Useless Today" />
+    {!noindex && <link rel="canonical" href={canonical} />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Useless Today" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Useless Web — a wall of beautifully pointless websites" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <meta name="theme-color" content="#fafafa" />
+
+    {
+      isHome && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(websiteSchema)}
+        />
+      )
+    }
+    {
+      schema && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(schema)}
+        />
+      )
+    }
+  </head>
+  <body class="min-h-screen font-sans text-ink antialiased">
+    <a
+      href="#main-content"
+      class="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-[60] focus-visible:rounded-md focus-visible:bg-ink focus-visible:px-4 focus-visible:py-2 focus-visible:text-[14px] focus-visible:font-medium focus-visible:text-on-primary"
+    >
+      Skip to content
+    </a>
+    <FluidCursor />
+    <slot />
+    <script>
+      import "../scripts/useless-client";
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+</style>

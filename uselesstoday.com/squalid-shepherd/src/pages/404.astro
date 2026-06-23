@@ -1,0 +1,72 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Page Not Found (404) — Useless Today"
+  description="This page is useless in the wrong way — it doesn't exist. Head back to the wall of useless websites, or hit Surprise me."
+  path="/404/"
+  noindex
+>
+  <Nav />
+  <main id="main-content" class="relative isolate overflow-hidden">
+    <div
+      class="mesh-soft pointer-events-none absolute inset-0 -z-10 opacity-90"
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="mx-auto flex max-w-[640px] flex-col items-center px-4 py-28 text-center sm:px-6 sm:py-36"
+    >
+      <p
+        class="inline-flex items-center gap-2 rounded-full border border-hairline bg-canvas/70 px-3 py-1 font-mono text-[12px] uppercase tracking-wide text-body backdrop-blur"
+      >
+        Error 404
+      </p>
+      <h1
+        class="mt-6 text-[64px] font-semibold leading-none tracking-[-0.045em] text-ink sm:text-[96px]"
+      >
+        404
+      </h1>
+      <p
+        class="mt-5 max-w-[460px] text-[18px] leading-7 text-body"
+      >
+        This page is useless in the wrong way — it doesn't exist. The link may be
+        broken, or the page may have wandered off to waste its own time.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="/"
+          class="inline-flex h-12 items-center rounded-full bg-ink px-6 text-[16px] font-medium text-on-primary shadow-[var(--shadow-card)] transition-transform hover:scale-[1.03] active:scale-95"
+        >
+          Back to the wall
+        </a>
+        <button
+          type="button"
+          data-surprise
+          class="inline-flex h-12 items-center gap-2 rounded-full border border-hairline bg-canvas px-6 text-[16px] font-medium text-ink transition-colors hover:bg-canvas-soft-2"
+        >
+          Surprise me
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+
+      <nav
+        class="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[12px] uppercase tracking-wide text-mute"
+        aria-label="Pages"
+      >
+        <a href="/about/" class="transition-colors hover:text-ink">About us</a>
+        <span class="text-hairline-strong" aria-hidden="true">·</span>
+        <a href="/contact/" class="transition-colors hover:text-ink">Contact us</a>
+        <span class="text-hairline-strong" aria-hidden="true">·</span>
+        <a href="/privacy/" class="transition-colors hover:text-ink">Privacy Policy</a>
+        <span class="text-hairline-strong" aria-hidden="true">·</span>
+        <a href="/terms/" class="transition-colors hover:text-ink">Terms &amp; Conditions</a>
+      </nav>
+    </div>
+  </main>
+  <Footer />
+</Layout>

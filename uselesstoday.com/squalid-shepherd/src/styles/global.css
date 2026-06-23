@@ -1,0 +1,200 @@
+/* Fonts (Geist substitutes per DESIGN.md) — self-hosted, no external request */
+@import "@fontsource-variable/inter";
+@import "@fontsource/jetbrains-mono";
+
+@import "tailwindcss";
+
+/* Class/attribute dark variant so `dark:` utilities key off [data-theme="dark"]
+   (instead of the OS-only prefers-color-scheme default). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ── Design tokens (DESIGN.md → Vercel) ─────────────────────────────── */
+@theme {
+  /* Ink + surfaces */
+  --color-ink: #171717;
+  --color-on-primary: #ffffff;
+  --color-body: #4d4d4d;
+  --color-mute: #888888;
+  --color-hairline: #ebebeb;
+  --color-hairline-strong: #a1a1a1;
+  --color-canvas: #ffffff;
+  --color-canvas-soft: #fafafa;
+  --color-canvas-soft-2: #f5f5f5;
+
+  /* Link / semantic */
+  --color-link: #0070f3;
+  --color-link-deep: #0761d1;
+  --color-link-bg-soft: #d3e5ff;
+  --color-error: #ee0000;
+  --color-warning: #f5a623;
+
+  /* Gradient stops (the brand's only decoration) */
+  --color-g-develop-start: #007cf0;
+  --color-g-develop-end: #00dfd8;
+  --color-g-preview-start: #7928ca;
+  --color-g-preview-end: #ff0080;
+  --color-g-ship-start: #ff4d4d;
+  --color-g-ship-end: #f9cb28;
+  --color-cyan: #50e3c2;
+
+  /* Type */
+  --font-sans: "Inter Variable", Inter, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Radius scale */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 100px;
+
+  /* Stacked, subtle elevation (never a single heavy drop) */
+  --shadow-card: 0 0 0 1px #00000014, 0 1px 1px #00000005, 0 2px 2px #0000000a;
+  --shadow-float: 0 0 0 1px #00000014, 0 2px 2px #0000000a, 0 8px 16px -4px #0000000a;
+  --shadow-modal: 0 0 0 1px #00000014, 0 1px 1px #00000005, 0 8px 16px -4px #0000000a,
+    0 24px 32px -8px #0000000f;
+}
+
+/* ── Dark theme: override token *values* only. Every component styles itself
+   with token-backed utilities (bg-canvas, text-ink, border-hairline…), so the
+   whole UI flips here with no per-component edits. --color-ink and
+   --color-on-primary swap together, so the ink-surface accent button
+   (bg-ink / text-on-primary) inverts into a light pill with dark text. ── */
+[data-theme="dark"] {
+  --color-ink: #ededed;        /* primary text / now-light accent surface */
+  --color-on-primary: #0a0a0a; /* text on the inverted accent button */
+  --color-body: #a1a1a1;
+  --color-mute: #6f6f6f;
+  --color-hairline: #2a2a2a;
+  --color-hairline-strong: #4d4d4d;
+  --color-canvas: #0a0a0a;
+  --color-canvas-soft: #000000;
+  --color-canvas-soft-2: #1a1a1a;
+
+  --color-link: #3b9eff;
+  --color-link-deep: #2f7fd6;
+  --color-link-bg-soft: #11385f;
+
+  /* Borders carry separation on dark where the black-based shadows fade out. */
+  --shadow-card: 0 0 0 1px #ffffff14, 0 1px 2px #00000080;
+  --shadow-float: 0 0 0 1px #ffffff14, 0 4px 12px -2px #000000a0;
+  --shadow-modal: 0 0 0 1px #ffffff1f, 0 8px 24px -6px #000000b0,
+    0 24px 40px -12px #000000c0;
+
+  color-scheme: dark;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+  body {
+    background-color: var(--color-canvas-soft);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+  ::selection {
+    background: var(--color-ink);
+    color: #f2f2f2;
+  }
+  /* Aggressive negative tracking is part of the voice */
+  h1, h2, h3 {
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+  /* Visible focus ring for every interactive element (never bare outline-none) */
+  :focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* Faster, intentional taps; no 300ms delay / accidental zoom on controls */
+  a,
+  button,
+  input,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+  /* Respect reduced-motion: kill transitions/animations, keep functionality */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ── Signature decoration: multi-stop mesh gradient (hero scale only) ── */
+@layer utilities {
+  .mesh-gradient {
+    background-color: var(--color-canvas-soft);
+    background-image:
+      radial-gradient(at 18% 22%, var(--color-g-develop-start) 0px, transparent 55%),
+      radial-gradient(at 80% 12%, var(--color-g-develop-end) 0px, transparent 50%),
+      radial-gradient(at 72% 78%, var(--color-g-preview-end) 0px, transparent 50%),
+      radial-gradient(at 28% 82%, var(--color-g-preview-start) 0px, transparent 55%),
+      radial-gradient(at 50% 50%, var(--color-g-ship-end) 0px, transparent 60%);
+  }
+  .mesh-soft {
+    background-image:
+      radial-gradient(at 15% 20%, color-mix(in srgb, var(--color-g-develop-start) 38%, transparent) 0px, transparent 50%),
+      radial-gradient(at 85% 18%, color-mix(in srgb, var(--color-g-develop-end) 34%, transparent) 0px, transparent 45%),
+      radial-gradient(at 78% 80%, color-mix(in srgb, var(--color-g-preview-end) 34%, transparent) 0px, transparent 48%),
+      radial-gradient(at 22% 85%, color-mix(in srgb, var(--color-g-preview-start) 32%, transparent) 0px, transparent 50%),
+      radial-gradient(at 50% 45%, color-mix(in srgb, var(--color-g-ship-end) 24%, transparent) 0px, transparent 55%);
+  }
+  /* hide scrollbars on the edge-link strips */
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+/* ── Long-form prose for content pages (Privacy / Terms / About / Contact) ──
+   Slotted page content lands here, so styles are global (component-scoped CSS
+   doesn't reach slotted markup). Everything keys off design tokens, so the
+   whole thing inherits dark mode for free. */
+.prose-ut h2 {
+  margin-top: 2.5rem;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+  scroll-margin-top: 5rem;
+}
+.prose-ut h3 {
+  margin-top: 1.75rem;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+.prose-ut p { margin-top: 1.25rem; }
+.prose-ut strong { color: var(--color-ink); font-weight: 600; }
+.prose-ut a {
+  color: var(--color-link);
+  text-underline-offset: 2px;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-link) 40%, transparent);
+  transition: text-decoration-color 0.15s;
+}
+.prose-ut a:hover { text-decoration-color: var(--color-link); }
+.prose-ut ul {
+  margin-top: 1rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.prose-ut ul li { margin-top: 0.5rem; }
+.prose-ut hr {
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--color-hairline);
+}

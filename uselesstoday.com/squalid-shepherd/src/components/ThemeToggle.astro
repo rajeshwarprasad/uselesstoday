@@ -1,0 +1,104 @@
+---
+// Dark-mode toggle. The pre-paint script in Layout.astro already set
+// documentElement.dataset.theme; this only flips + persists + syncs the choice.
+// Icons swap purely via CSS keyed on [data-theme], so there's no flash.
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  aria-label="Toggle dark mode"
+  aria-pressed="false"
+  title="Toggle dark mode"
+  class="grid size-8 place-items-center rounded-full border border-hairline bg-canvas text-ink transition-colors hover:bg-canvas-soft-2"
+>
+  <!-- sun (shown in dark mode → click to go light) -->
+  <svg
+    class="theme-icon-sun size-4"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path
+      d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+    ></path>
+  </svg>
+  <!-- moon (shown in light mode → click to go dark) -->
+  <svg
+    class="theme-icon-moon size-4"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<style>
+  /* Show the icon for the action the click performs. */
+  .theme-icon-sun {
+    display: none;
+  }
+  :global([data-theme="dark"]) .theme-icon-sun {
+    display: block;
+  }
+  :global([data-theme="dark"]) .theme-icon-moon {
+    display: none;
+  }
+</style>
+
+<script>
+  const KEY = "ut_theme";
+  const root = document.documentElement;
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function current(): "dark" | "light" {
+    return root.dataset.theme === "dark" ? "dark" : "light";
+  }
+
+  function syncButtons() {
+    const isDark = current() === "dark";
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")
+      .forEach((b) => b.setAttribute("aria-pressed", String(isDark)));
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", isDark ? "#0a0a0a" : "#fafafa");
+  }
+
+  function apply(theme: "dark" | "light", persist: boolean) {
+    root.dataset.theme = theme;
+    if (persist) {
+      try {
+        localStorage.setItem(KEY, theme);
+      } catch {}
+    }
+    syncButtons();
+  }
+
+  // Reflect the theme the pre-paint script chose.
+  syncButtons();
+
+  document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      apply(current() === "dark" ? "light" : "dark", true);
+    });
+  });
+
+  // Follow the OS only while the user hasn't made an explicit choice.
+  mq.addEventListener("change", (e) => {
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem(KEY);
+    } catch {}
+    if (!stored) apply(e.matches ? "dark" : "light", false);
+  });
+</script>

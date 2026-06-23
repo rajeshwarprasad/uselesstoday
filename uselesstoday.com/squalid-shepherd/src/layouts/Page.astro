@@ -1,0 +1,56 @@
+---
+// Shared shell for the standalone MPA content pages (Privacy, Terms, About,
+// Contact). Wraps the SEO-aware Layout with the site Nav + Footer and a centred
+// article column, so each page only supplies its eyebrow/heading/intro + body.
+import Layout from "./Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Site-root-relative path, e.g. "/privacy/" — drives canonical + og:url. */
+  path: string;
+  eyebrow: string;
+  heading: string;
+  intro?: string;
+  /** Optional date string shown under the heading (legal pages). */
+  updated?: string;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { title, description, path, eyebrow, heading, intro, updated, schema } =
+  Astro.props;
+---
+
+<Layout title={title} description={description} path={path} schema={schema}>
+  <Nav />
+  <main id="main-content">
+    <article class="mx-auto max-w-[760px] px-4 py-20 sm:px-6">
+      <p class="font-mono text-[12px] uppercase tracking-wide text-mute">
+        {eyebrow}
+      </p>
+      <h1
+        class="mt-3 text-[36px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[48px]"
+      >
+        {heading}
+      </h1>
+      {
+        intro && (
+          <p class="mt-5 text-[18px] leading-7 text-body">{intro}</p>
+        )
+      }
+      {
+        updated && (
+          <p class="mt-4 font-mono text-[12px] uppercase tracking-wide text-mute">
+            Last updated: {updated}
+          </p>
+        )
+      }
+      <div class="prose-ut mt-10 text-[16px] leading-7 text-body">
+        <slot />
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Layout>

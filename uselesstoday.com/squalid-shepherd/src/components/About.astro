@@ -1,0 +1,156 @@
+---
+// Long-form, indexable SEO copy (~600 words) + FAQ. Styled with design tokens,
+// so it inherits dark mode for free. The FAQ markup is mirrored in FAQPage
+// JSON-LD below for rich results.
+const faqs = [
+  {
+    q: "What's another word for useless? (useless synonym)",
+    a: "A useless synonym is easy to find: pointless, futile, worthless, fruitless, unproductive, or good-for-nothing all work. If you ever need another word for useless, those fit nicely — though here we wear the word as a badge of honour rather than an insult.",
+  },
+  {
+    q: "What is a useless box?",
+    a: "A useless box is a small gadget with a single switch. Flip it on and a tiny arm pops out, flips the switch back off, and retreats. It does absolutely nothing of value — which is exactly the spirit of the useless web. Several sites on our wall are the on-screen version of a useless box.",
+  },
+  {
+    q: "Got any useless facts?",
+    a: "Plenty. Useless facts are our love language: bananas are berries but strawberries are not, a group of flamingos is called a flamboyance, and honey never spoils. None of it will improve your life, and that's the point — useless facts are the snack-sized cousin of a useless website.",
+  },
+  {
+    q: "Am I a useless person if I spend all day here?",
+    a: "Not at all. Wasting a few minutes on the useless web doesn't make you a useless person — it makes you a human who needed a break. Treat it as a deliberate useless day: a guilt-free pause between the things that actually matter.",
+  },
+];
+
+// A second group for the real, human questions people actually search. Answers
+// here use HTML (rendered with set:html), and the same markup is reused in the
+// FAQPage JSON-LD text below. These deserve a kind, honest tone — not jokes.
+const realFaqs = [
+  {
+    q: "Is the appendix useless?",
+    a: "<p>Not really. The appendix was long dismissed as a useless, vestigial organ, but newer research suggests it acts as a 'safe house' for good gut bacteria and plays a small role in the immune system. You can live a healthy life without it, but calling it completely useless isn't quite fair.</p>",
+  },
+  {
+    q: "Why am I so dumb and useless?",
+    a: "<p>You almost certainly aren't either of those things — that's a harsh thought, not a fact. Brains are cruel narrators when we're tired, stressed, or burned out, and struggling with something hard doesn't make you dumb or useless. Try talking to yourself the way you'd talk to a friend. If that voice sticks around, please reach out to someone you trust or a mental-health professional. You deserve support.</p>",
+  },
+  {
+    q: "Why am I so useless?",
+    a: "<p>Feeling useless usually says more about your energy levels than your actual worth. Exhaustion, comparison, and doing too much for too long all make us feel like we're falling short. You're not a machine, and your value isn't measured in output. Rest is allowed, and a slow day doesn't cancel out everything you are.</p>",
+  },
+  {
+    q: "Am I useless?",
+    a: "<p>No. No person is useless. Your worth doesn't depend on how productive you were today, how you compare to anyone else, or what your inner critic is shouting. If you're asking the question because you're hurting, that's worth taking seriously — talk to someone who cares about you.</p>",
+  },
+  {
+    q: "Why do I feel useless?",
+    a: "<p>Feelings of uselessness often come from burnout, depression, loneliness, comparison, or expectations that were never realistic in the first place. The important thing to remember is that feelings aren't facts — feeling useless and being useless are not the same. If the feeling lingers or gets heavy, please consider speaking with a doctor or counsellor; this is a common, treatable thing, and you don't have to carry it alone.</p>",
+  },
+  {
+    q: "Why am I useless?",
+    a: "<p>You're not — but the fact that you're asking means you're being hard on yourself, and that's worth gentleness, not judgement. A bad day, a bad week, or a long stretch of feeling stuck doesn't define you. Small steps count, rest counts, and reaching out for help is a strength, not a failure.</p>",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [...faqs, ...realFaqs].map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+
+<section
+  id="about"
+  class="scroll-mt-20 border-t border-hairline bg-canvas-soft"
+  aria-labelledby="about-heading"
+>
+  <div class="mx-auto max-w-[760px] px-4 py-20 sm:px-6">
+    <p class="font-mono text-[12px] uppercase tracking-wide text-mute">About</p>
+    <h2
+      id="about-heading"
+      class="mt-3 text-[32px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[40px]"
+    >
+      What is the useless web?
+    </h2>
+
+    <div class="mt-6 space-y-5 text-[16px] leading-7 text-body">
+      <p>
+        The <strong>useless web</strong> is the gloriously pointless corner of the internet — the
+        single-serving sites, daft toys, and oddball experiments built for no reason other than to
+        make you smile. <strong>Useless Today</strong> is our take on the useless web: instead of one
+        random button, we've assembled a whole wall of curated <strong>useless websites</strong> you
+        can browse by mood, search in a second, or hand over to fate. Whenever someone says
+        <em>"take me to a useless website,"</em> this is the place to send them.
+      </p>
+      <p>
+        Most useless-web tools fling you off to a random page and leave you guessing. We wanted
+        something a little kinder: every link here is hand-picked and regularly checked, so you never
+        hit a dead end. Hit <strong>Surprise me</strong> and we'll open a fresh pointless site in a
+        new tab — you always land back here, ready for the next one. Prefer to choose? Filter the wall
+        by Silly, Relaxing, Weird, Games, or Art and dig in at your own pace. From bouncing cats and
+        endlessly scrolling animals to calming rain, tiny games, and generative art, there's a useless
+        website here for every mood and every kind of boredom.
+      </p>
+
+      <h3 class="pt-2 text-[20px] font-semibold tracking-tight text-ink">
+        Why waste time on purpose?
+      </h3>
+      <p>
+        Not everything online needs to be productive. A <strong>useless day</strong> — or even just a
+        useless five minutes — is a small, free way to reset. The word <em>useless</em> gets a bad rap,
+        but a website that does exactly one silly thing perfectly is a tiny work of art. Think of the
+        classic <strong>useless box</strong>: a switch whose only job is to turn itself off. It's
+        absurd, it's charming, and it's weirdly satisfying. The whole useless web runs on that same
+        joyful pointlessness.
+      </p>
+
+      <h3 class="pt-2 text-[20px] font-semibold tracking-tight text-ink">
+        A new useless pick every day
+      </h3>
+      <p>
+        The internet never runs out of nonsense, so neither do we. There's a fresh
+        <strong>Useless Today</strong> pick at the top of the page — the same surprise for everyone,
+        every day — alongside a counter that quietly tallies how gloriously you're wasting your time.
+        Come back tomorrow and the wall feels new again. Bookmark it, share it with a bored friend, and
+        let the useless web do what it does best: absolutely nothing, beautifully.
+      </p>
+    </div>
+
+    <h2 class="mt-14 text-[28px] font-semibold tracking-[-0.03em] sm:text-[32px]">
+      Useless FAQ
+    </h2>
+    <dl class="mt-6 divide-y divide-hairline border-y border-hairline">
+      {
+        faqs.map((f) => (
+          <div class="py-5">
+            <dt class="text-[16px] font-semibold tracking-tight text-ink">{f.q}</dt>
+            <dd class="mt-2 text-[15px] leading-7 text-body">{f.a}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <h3 class="mt-12 text-[20px] font-semibold tracking-tight text-ink">
+      Feeling useless? You're not.
+    </h3>
+    <p class="mt-2 text-[15px] leading-7 text-body">
+      Some of the most-searched “useless” questions aren't really about websites at all. Here are
+      honest, kinder answers.
+    </p>
+    <dl class="mt-6 divide-y divide-hairline border-y border-hairline">
+      {
+        realFaqs.map((f) => (
+          <div class="py-5">
+            <dt class="text-[16px] font-semibold tracking-tight text-ink">{f.q}</dt>
+            <dd class="mt-2 text-[15px] leading-7 text-body" set:html={f.a} />
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+</section>

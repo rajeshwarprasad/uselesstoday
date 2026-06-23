@@ -1,0 +1,82 @@
+---
+import Page from "../layouts/Page.astro";
+
+const EMAIL = "prasad.rajeshwar@gmail.com";
+---
+
+<Page
+  title="Privacy Policy — Useless Today"
+  description="The Useless Today privacy policy: what little data we store (theme preference and a local click counter), how we handle external links, and how to contact us."
+  path="/privacy/"
+  eyebrow="Legal"
+  heading="Privacy Policy"
+  intro="We built Useless Today to waste time, not to collect yours. This policy explains the little data the site touches and how we handle it — in plain English."
+  updated="22 June 2026"
+>
+  <p>
+    This Privacy Policy describes how Useless Today ("we", "us", or "our")
+    handles information when you visit
+    <a href="https://uselesstoday.com/">uselesstoday.com</a> (the "Site"). By
+    using the Site, you agree to the practices described here.
+  </p>
+
+  <h2>The short version</h2>
+  <p>
+    We don't ask you to create an account, and we don't ask for your name,
+    email, or any personal details to use the Site. The only things stored are
+    kept in your own browser to make the Site work the way you'd expect.
+  </p>
+
+  <h2>Information stored in your browser</h2>
+  <p>
+    Useless Today uses your browser's <strong>local storage</strong> — not
+    cookies — for two small, purely functional purposes:
+  </p>
+  <ul>
+    <li><strong>Theme preference.</strong> If you switch between light and dark mode, we remember your choice so the Site looks right next time.</li>
+    <li><strong>Time-wasted counter.</strong> We keep a small per-day tally of how many useless links you've opened, so the on-screen counter can show it. This number lives only on your device.</li>
+  </ul>
+  <p>
+    This information never leaves your browser, is not linked to your identity,
+    and you can clear it at any time through your browser settings.
+  </p>
+
+  <h2>Analytics</h2>
+  <p>
+    We may use privacy-friendly, aggregate analytics to understand how many
+    people visit the Site and which useless websites are popular. Where we do,
+    we aim to use tools that do not track individuals across the web or build
+    advertising profiles. We do not sell your data — we don't even collect
+    enough to sell.
+  </p>
+
+  <h2>External links</h2>
+  <p>
+    The whole point of Useless Today is to send you to other websites. When you
+    click a link on the wall or hit <strong>Surprise me</strong>, you leave our
+    Site and land on a third-party site we don't control. Those sites have their
+    own privacy practices, and this policy does not cover them. We curate links
+    in good faith but can't be responsible for what other sites do with your
+    information.
+  </p>
+
+  <h2>Children's privacy</h2>
+  <p>
+    The Site is intended for a general audience and does not knowingly collect
+    personal information from anyone, including children.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    We may update this Privacy Policy from time to time. When we do, we'll
+    revise the "Last updated" date above. Continued use of the Site after a
+    change means you accept the updated policy.
+  </p>
+
+  <h2>Contact us</h2>
+  <p>
+    Questions about privacy? Email us at
+    <a href={`mailto:${EMAIL}`}>{EMAIL}</a> or visit our
+    <a href="/contact/">Contact page</a>.
+  </p>
+</Page>

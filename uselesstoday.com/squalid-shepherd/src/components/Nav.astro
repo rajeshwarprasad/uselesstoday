@@ -1,0 +1,58 @@
+---
+// Sticky top nav — DESIGN nav-bar tokens (64px, canvas, ink, mono links).
+import ThemeToggle from "./ThemeToggle.astro";
+
+// Root-relative anchors (e.g. "/#directory") so they work from every page, not
+// just the home page where the section lives.
+const navLinks = [
+  { label: "The wall", href: "/#directory" },
+  { label: "About", href: "/about/" },
+  { label: "Contact", href: "/contact/" },
+];
+---
+
+<header
+  class="sticky top-0 z-50 h-16 border-b border-hairline bg-canvas/80 backdrop-blur-md"
+>
+  <nav
+    class="mx-auto flex h-full max-w-[1200px] items-center justify-between px-4 sm:px-6"
+    aria-label="Primary"
+  >
+    <a href="/" class="group flex items-center gap-2">
+      <span
+        class="grid size-6 place-items-center rounded-sm bg-ink text-[13px] leading-none text-on-primary"
+        aria-hidden="true">u</span
+      >
+      <span class="text-[15px] font-semibold tracking-tight">
+        uselesstoday<span class="text-mute">.com</span>
+      </span>
+    </a>
+
+    <ul class="hidden items-center gap-1 md:flex">
+      {
+        navLinks.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              class="rounded-full px-3 py-1.5 font-mono text-[12px] uppercase tracking-wide text-body transition-colors hover:bg-canvas-soft-2 hover:text-ink"
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <ThemeToggle />
+      <button
+        type="button"
+        data-surprise
+        class="inline-flex h-8 items-center gap-1.5 rounded-full bg-ink px-3.5 text-[13px] font-medium text-on-primary transition-transform hover:scale-[1.03] active:scale-95"
+      >
+        Surprise me
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </nav>
+</header>

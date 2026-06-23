@@ -1,0 +1,28 @@
+---
+// Full-screen WebGL fluid-cursor trail. The simulation itself lives in
+// /public/fluid.js (MIT — Pavel Dobryakov's WebGL-Fluid-Simulation, trimmed:
+// no GUI/promo/analytics, transparent overlay, paints on hover).
+---
+
+<canvas id="fluid-canvas" aria-hidden="true"></canvas>
+
+<script is:inline>
+  // Respect reduced-motion: only load the (heavy) WebGL sim when motion is OK.
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var s = document.createElement("script");
+    s.src = "/fluid.js";
+    s.defer = true;
+    document.body.appendChild(s);
+  }
+</script>
+
+<style>
+  #fluid-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* never intercepts clicks or scrolling */
+    z-index: 9999; /* trail floats over content, like the reference site */
+  }
+</style>

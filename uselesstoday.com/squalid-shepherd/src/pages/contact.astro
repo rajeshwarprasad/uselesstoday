@@ -1,0 +1,65 @@
+---
+import Page from "../layouts/Page.astro";
+
+const EMAIL = "prasad.rajeshwar@gmail.com";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact Useless Today",
+  url: "https://uselesstoday.com/contact/",
+  description:
+    "Contact Useless Today. Suggest a useless website, report a broken link, or just say hello.",
+};
+---
+
+<Page
+  title="Contact Us — Useless Today"
+  description="Contact Useless Today: suggest a useless website for the wall, report a broken link, or get in touch. Email prasad.rajeshwar@gmail.com."
+  path="/contact/"
+  eyebrow="Contact us"
+  heading="Say hello."
+  intro="Got a wonderfully pointless website we should add to the wall? Spotted a broken link? Or just want to say hi? We read every message."
+  schema={schema}
+>
+  <h2>Email us</h2>
+  <p>
+    The fastest way to reach us is by email. Drop us a line at
+    <a href={`mailto:${EMAIL}`}>{EMAIL}</a> and we'll get back to you as soon as
+    we've finished wasting our own time.
+  </p>
+
+  <h2>Suggest a useless website</h2>
+  <p>
+    Found a single-serving site, a daft toy, or an oddball experiment that
+    belongs on the wall? Send it our way. The more gloriously pointless, the
+    better.
+  </p>
+  <p>
+    <a
+      href={`mailto:${EMAIL}?subject=Useless%20site%20suggestion`}
+      >Suggest a site by email →</a
+    >
+  </p>
+
+  <h2>Report a broken link</h2>
+  <p>
+    We check the wall regularly, but the useless web is a fragile place and
+    sites do vanish. If a link sends you nowhere, let us know which one and
+    we'll fix or replace it.
+  </p>
+  <p>
+    <a
+      href={`mailto:${EMAIL}?subject=Broken%20link%20on%20Useless%20Today`}
+      >Report a broken link →</a
+    >
+  </p>
+
+  <h2>Everything else</h2>
+  <p>
+    Questions, feedback, kind words, or complaints that we made you waste an
+    afternoon? All welcome at
+    <a href={`mailto:${EMAIL}`}>{EMAIL}</a>. While you wait for a reply, you may
+    as well <a href="/#directory">browse the wall</a>.
+  </p>
+</Page>

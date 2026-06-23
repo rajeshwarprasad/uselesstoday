@@ -1,0 +1,40 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="g1" cx="18%" cy="22%" r="60%">
+      <stop offset="0%" stop-color="#007cf0" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#007cf0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="85%" cy="18%" r="55%">
+      <stop offset="0%" stop-color="#00dfd8" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#00dfd8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g3" cx="78%" cy="85%" r="55%">
+      <stop offset="0%" stop-color="#ff0080" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#ff0080" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g4" cx="22%" cy="88%" r="55%">
+      <stop offset="0%" stop-color="#7928ca" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#7928ca" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <rect width="1200" height="630" fill="url(#g1)"/>
+  <rect width="1200" height="630" fill="url(#g2)"/>
+  <rect width="1200" height="630" fill="url(#g3)"/>
+  <rect width="1200" height="630" fill="url(#g4)"/>
+
+  <!-- brand mark -->
+  <g transform="translate(96, 96)">
+    <rect width="96" height="96" rx="20" fill="#ededed"/>
+    <text x="48" y="70" font-family="Inter, system-ui, sans-serif" font-size="64" font-weight="700" fill="#0a0a0a" text-anchor="middle">u</text>
+  </g>
+  <text x="216" y="166" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="30" letter-spacing="2" fill="#a1a1a1">uselesstoday.com</text>
+
+  <!-- headline -->
+  <text x="96" y="360" font-family="Inter, system-ui, sans-serif" font-size="92" font-weight="700" letter-spacing="-3" fill="#ededed">The Useless Web,</text>
+  <text x="96" y="462" font-family="Inter, system-ui, sans-serif" font-size="92" font-weight="700" letter-spacing="-3" fill="#ededed">beautifully.</text>
+
+  <!-- tagline -->
+  <text x="96" y="548" font-family="Inter, system-ui, sans-serif" font-size="34" fill="#a1a1a1">A wall of curated useless websites. Waste time, gloriously.</text>
+</svg>

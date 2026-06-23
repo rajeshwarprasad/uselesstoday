@@ -1,0 +1,147 @@
+---
+// The browsable wall: search + category pills + responsive card grid.
+// Shared client behavior (surprise-me, keyboard, counter) lives site-wide in
+// src/scripts/useless-client.ts; this component owns only search + filtering.
+import { LINKS, CATEGORIES } from "../data/links";
+---
+
+<section id="directory" class="border-t border-hairline bg-canvas-soft scroll-mt-20">
+  <div class="mx-auto max-w-[1200px] px-4 py-20 sm:px-6">
+    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <div class="max-w-xl">
+        <p class="font-mono text-[12px] uppercase tracking-wide text-mute">The wall · {LINKS.length} sites</p>
+        <h2 class="mt-3 text-[32px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[40px]">
+          Pick your poison.
+        </h2>
+        <p class="mt-3 text-[16px] leading-6 text-body">
+          Hand-picked, regularly checked, never a dead link. Filter by mood or just search.
+        </p>
+      </div>
+
+      <label class="relative block w-full md:w-72">
+        <span class="sr-only">Search useless sites</span>
+        <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-mute" aria-hidden="true">⌕</span>
+        <input
+          type="search"
+          name="q"
+          autocomplete="off"
+          spellcheck="false"
+          data-search
+          placeholder="Search ‘cats’, ‘rain’, ‘games’…"
+          class="h-10 w-full rounded-md border border-hairline bg-canvas pl-9 pr-3 text-[14px] text-ink outline-none placeholder:text-mute focus:border-hairline-strong focus:ring-2 focus:ring-link/30"
+        />
+      </label>
+    </div>
+
+    <!-- category pills -->
+    <div class="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="Filter by category">
+      <button
+        type="button"
+        data-filter="all"
+        aria-pressed="true"
+        class="filter-pill h-9 rounded-full border border-ink bg-ink px-4 text-[14px] font-medium text-on-primary transition-colors"
+      >
+        All
+      </button>
+      {
+        CATEGORIES.map((c) => (
+          <button
+            type="button"
+            data-filter={c.id}
+            aria-pressed="false"
+            class="filter-pill h-9 rounded-full border border-hairline bg-canvas px-4 text-[14px] text-body transition-colors hover:bg-canvas-soft-2 hover:text-ink"
+          >
+            {c.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- card grid -->
+    <ul
+      data-grid
+      class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+    >
+      {
+        LINKS.map((l) => (
+          <li class="card" data-category={l.category} data-title={l.title.toLowerCase()} data-blurb={l.blurb.toLowerCase()}>
+            <a
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-count-link
+              class="group flex h-full flex-col rounded-lg border border-hairline bg-canvas p-5 shadow-[var(--shadow-card)] transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[var(--shadow-float)]"
+            >
+              <div class="flex items-start justify-between gap-3">
+                <span class="grid size-10 place-items-center rounded-md bg-canvas-soft-2 text-xl" aria-hidden="true">
+                  {l.emoji}
+                </span>
+                <span class="rounded-full bg-canvas-soft px-2 py-0.5 font-mono text-[11px] uppercase tracking-wide text-mute">
+                  {l.category}
+                </span>
+              </div>
+              <h3 class="mt-4 text-[16px] font-semibold tracking-tight text-ink group-hover:text-link">
+                {l.title}
+              </h3>
+              <p class="mt-1.5 text-[14px] leading-5 text-body">{l.blurb}</p>
+              <span class="mt-4 inline-flex items-center gap-1 font-mono text-[12px] text-mute group-hover:text-link">
+                open in new tab <span aria-hidden="true">↗</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p data-empty hidden class="mt-12 text-center font-mono text-[14px] text-mute">
+      Nothing matches that. Even uselessness has limits.
+    </p>
+  </div>
+</section>
+
+<script>
+  // Surprise-me, the time-wasted counter, and keyboard shortcuts now live in
+  // the site-wide script (src/scripts/useless-client.ts) so they work on every
+  // page. This script owns only the wall's search + category filter.
+
+  // ── search + category filter ──────────────────────────────────────────
+  const searchEl = document.querySelector<HTMLInputElement>("[data-search]");
+  const cards = Array.from(document.querySelectorAll<HTMLElement>(".card"));
+  const pills = Array.from(document.querySelectorAll<HTMLButtonElement>(".filter-pill"));
+  const emptyEl = document.querySelector<HTMLElement>("[data-empty]");
+  let activeCat = "all";
+
+  function applyFilter() {
+    const q = (searchEl?.value || "").trim().toLowerCase();
+    let visible = 0;
+    for (const card of cards) {
+      const cat = card.dataset.category || "";
+      const hay = (card.dataset.title || "") + " " + (card.dataset.blurb || "") + " " + cat;
+      const matchCat = activeCat === "all" || cat === activeCat;
+      const matchText = q === "" || hay.includes(q);
+      const show = matchCat && matchText;
+      card.hidden = !show;
+      if (show) visible++;
+    }
+    if (emptyEl) emptyEl.hidden = visible !== 0;
+  }
+
+  searchEl?.addEventListener("input", applyFilter);
+
+  pills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      activeCat = pill.dataset.filter || "all";
+      for (const p of pills) {
+        const on = p === pill;
+        p.setAttribute("aria-pressed", String(on));
+        p.classList.toggle("bg-ink", on);
+        p.classList.toggle("text-on-primary", on);
+        p.classList.toggle("border-ink", on);
+        p.classList.toggle("bg-canvas", !on);
+        p.classList.toggle("text-body", !on);
+        p.classList.toggle("border-hairline", !on);
+      }
+      applyFilter();
+    });
+  });
+</script>

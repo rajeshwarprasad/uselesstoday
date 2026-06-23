@@ -1,0 +1,105 @@
+---
+// Hero band — mesh gradient backdrop, mono eyebrow, display headline,
+// primary "Surprise me" CTA + secondary "Browse the wall". Live counter + daily pick.
+import { LINKS } from "../data/links";
+
+// Deterministic "Useless Today" pick — same for everyone on a given day, no client JS needed.
+const epochDay = Math.floor(Date.now() / 86_400_000);
+const daily = LINKS[epochDay % LINKS.length];
+---
+
+<section id="top" class="relative isolate overflow-hidden">
+  <!-- the brand's single decoration: mesh gradient, hero scale only -->
+  <div
+    class="mesh-soft pointer-events-none absolute inset-0 -z-10 opacity-90"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-canvas-soft"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="mx-auto max-w-[840px] px-4 pb-20 pt-20 text-center sm:px-6 sm:pt-28">
+    <p
+      class="inline-flex items-center gap-2 rounded-full border border-hairline bg-canvas/70 px-3 py-1 font-mono text-[12px] uppercase tracking-wide text-body backdrop-blur"
+    >
+      <span class="size-1.5 rounded-full bg-cyan"></span>
+      The useless web · est. today
+    </p>
+
+    <h1
+      class="mt-6 text-[40px] font-semibold leading-[1.02] tracking-[-0.045em] text-ink sm:text-[64px]"
+    >
+      Waste your time.<br />Beautifully.
+    </h1>
+
+    <p class="mx-auto mt-5 max-w-[560px] text-[17px] leading-7 text-body sm:text-[18px]">
+      The useless web, upgraded. One button took you to one pointless site — we built the
+      whole wall of useless websites. Pick a vibe, hit surprise, and fall down a rabbit hole —
+      every link opens in a new tab, so you always land back here.
+    </p>
+
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <button
+        type="button"
+        data-surprise
+        class="inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-[16px] font-medium text-on-primary shadow-[var(--shadow-card)] transition-transform hover:scale-[1.03] active:scale-95"
+      >
+        Take me somewhere useless.
+        <span aria-hidden="true">→</span>
+      </button>
+      <a
+        href="#directory"
+        class="inline-flex h-12 items-center rounded-full border border-hairline bg-canvas px-6 text-[16px] font-medium text-ink transition-colors hover:bg-canvas-soft-2"
+      >
+        Browse the wall
+      </a>
+    </div>
+
+    <!-- daily pick + time-wasted counter -->
+    <div
+      class="mx-auto mt-10 flex max-w-[560px] flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-6"
+    >
+      <a
+        href={daily.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-count-link
+        class="group inline-flex items-center gap-2.5 rounded-full border border-hairline bg-canvas/80 py-1.5 pl-2 pr-4 text-[13px] backdrop-blur transition-colors hover:bg-canvas"
+      >
+        <span
+          class="grid size-7 place-items-center rounded-full bg-canvas-soft-2 text-base"
+          aria-hidden="true">{daily.emoji}</span
+        >
+        <span class="font-mono text-[11px] uppercase tracking-wide text-mute">Useless today</span>
+        <span class="font-medium text-ink group-hover:text-link">{daily.title}</span>
+      </a>
+
+      <p class="font-mono text-[12px] text-mute" aria-live="polite">
+        time wasted: <span data-counter class="font-semibold tabular-nums text-ink">0</span> clicks
+      </p>
+    </div>
+
+    <p class="mt-6 font-mono text-[11px] text-mute">
+      press <kbd class="rounded border border-hairline bg-canvas px-1.5 py-0.5">R</kbd> or
+      <kbd class="rounded border border-hairline bg-canvas px-1.5 py-0.5">space</kbd> to roll ·
+      <kbd class="rounded border border-hairline bg-canvas px-1.5 py-0.5">/</kbd> to search
+    </p>
+
+    <!-- Secondary page links — visible on every viewport (nav links hide on mobile). -->
+    <nav
+      class="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[12px] uppercase tracking-wide text-mute"
+      aria-label="Pages"
+    >
+      <a href="/about/" class="transition-colors hover:text-ink">About us</a>
+      <span class="text-hairline-strong" aria-hidden="true">·</span>
+      <a href="/contact/" class="transition-colors hover:text-ink">Contact us</a>
+      <span class="text-hairline-strong" aria-hidden="true">·</span>
+      <a href="/privacy/" class="transition-colors hover:text-ink">Privacy Policy</a>
+      <span class="text-hairline-strong" aria-hidden="true">·</span>
+      <a href="/terms/" class="transition-colors hover:text-ink">Terms &amp; Conditions</a>
+    </nav>
+  </div>
+</section>
