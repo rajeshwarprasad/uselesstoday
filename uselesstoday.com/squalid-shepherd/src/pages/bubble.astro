@@ -1,0 +1,88 @@
+---
+// Bubble Shooter Premium — self-contained portrait game, sandboxed in an iframe.
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  name: "Bubble Shooter",
+  url: "https://uselesstoday.com/bubble/",
+  applicationCategory: "GameApplication",
+  operatingSystem: "Any (web browser)",
+  genre: "Arcade / Puzzle",
+  playMode: "SinglePlayer",
+  description:
+    "Play Bubble Shooter free in your browser. Aim, match three or more, and clear the board. The classic, endlessly satisfying time-waster. No install.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
+---
+
+<Layout
+  title="Play Bubble Shooter Online — Free Browser Game | Useless Today"
+  description="Play Bubble Shooter free in your browser. Aim, match three or more of a colour, and pop your way to a cleared board. The classic satisfying time-waster — no download, no sign-up."
+  path="/bubble/"
+  schema={schema}
+  keywords={[
+    "play classic bubble shooter game",
+    "bubble shooter online free",
+    "classic bubble shooter",
+    "bubble shooter game online",
+    "free bubble pop game",
+    "play bubble shooter free",
+    "bubble shooter arcade game",
+    "match three bubble game",
+  ]}
+>
+  <Nav />
+  <main id="main-content">
+    <section class="mx-auto max-w-[1200px] px-4 pt-16 pb-6 sm:px-6">
+      <p class="font-mono text-[12px] uppercase tracking-wide text-mute">
+        Games · gloriously pointless
+      </p>
+      <h1
+        class="mt-3 text-[36px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[48px]"
+      >
+        Bubble Shooter
+      </h1>
+      <p class="mt-5 max-w-[680px] text-[18px] leading-7 text-body">
+        Aim, fire, and match three of a colour to pop them off the board. One of
+        those perfectly pointless little games that quietly eats an afternoon.
+        Don't say we didn't warn you.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-[1200px] px-4 pb-20 sm:px-6">
+      <div
+        class="ludo-frame mx-auto w-full max-w-[480px] overflow-hidden rounded-xl border border-hairline shadow-float"
+      >
+        <iframe
+          src="/games/bubble.html"
+          title="Bubble Shooter"
+          loading="lazy"
+          allowfullscreen
+          class="block w-full border-0"
+        ></iframe>
+      </div>
+
+      <p class="mx-auto mt-4 max-w-[480px] text-center text-[13px] text-mute">
+        Not fitting on your screen?
+        <a
+          href="/games/bubble.html"
+          class="text-link underline decoration-link/40 underline-offset-2 transition-colors hover:decoration-link"
+          >Open it fullscreen →</a
+        >
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  /* Portrait 9:16 play area — give it a tall, narrow frame. */
+  .ludo-frame iframe {
+    height: clamp(680px, 160vw, 880px);
+    background: #0f2027;
+  }
+</style>

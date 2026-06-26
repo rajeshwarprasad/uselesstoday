@@ -1,0 +1,84 @@
+---
+// Our Valentine Journey — a self-contained interactive sweet-nothing. Sandboxed
+// in an <iframe> so its full-screen body styling never touches the site shell.
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Our Valentine Journey",
+  url: "https://uselesstoday.com/valentine/",
+  description:
+    "A tiny, lovingly pointless Valentine experience — hearts, sweet nothings, and a little interactive journey to make someone smile.",
+};
+---
+
+<Layout
+  title="Valentine — A Little Interactive Love Letter | Useless Today"
+  description="An adorable, gloriously pointless Valentine experience right in your browser. Floating hearts and a sweet little journey to share with someone you like. No download, no sign-up."
+  path="/valentine/"
+  schema={schema}
+  keywords={[
+    "romantic valentine greetings for husband",
+    "last minute valentine ecards",
+    "valentine e-cards online",
+    "free valentine ecards",
+    "romantic valentine greetings",
+    "valentine card for husband",
+    "valentine greetings online",
+    "send valentine ecard free",
+    "interactive valentine card",
+  ]}
+>
+  <Nav />
+  <main id="main-content">
+    <section class="mx-auto max-w-[1200px] px-4 pt-16 pb-6 sm:px-6">
+      <p class="font-mono text-[12px] uppercase tracking-wide text-mute">
+        Silly · gloriously pointless
+      </p>
+      <h1
+        class="mt-3 text-[36px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[48px]"
+      >
+        Valentine
+      </h1>
+      <p class="mt-5 max-w-[680px] text-[18px] leading-7 text-body">
+        A tiny interactive love letter — floating hearts and a sweet little
+        journey that does exactly one charming, useless thing. Open it, tap
+        along, and send the link to someone who deserves a smile.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-[1200px] px-4 pb-20 sm:px-6">
+      <div
+        class="ludo-frame mx-auto w-full max-w-[600px] overflow-hidden rounded-xl border border-hairline shadow-float"
+      >
+        <iframe
+          src="/games/valentine.html"
+          title="Our Valentine Journey — interactive experience"
+          loading="lazy"
+          allowfullscreen
+          class="block w-full border-0"
+        ></iframe>
+      </div>
+
+      <p class="mx-auto mt-4 max-w-[600px] text-center text-[13px] text-mute">
+        Not fitting on your screen?
+        <a
+          href="/games/valentine.html"
+          class="text-link underline decoration-link/40 underline-offset-2 transition-colors hover:decoration-link"
+          >Open it fullscreen →</a
+        >
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .ludo-frame iframe {
+    height: clamp(640px, 92vh, 800px);
+    background: #1a1a2e;
+  }
+</style>

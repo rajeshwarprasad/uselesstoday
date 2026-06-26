@@ -1,0 +1,77 @@
+---
+// Chess: Human vs Computer — self-contained game, sandboxed in an <iframe>.
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  name: "Chess — Human vs Computer",
+  url: "https://uselesstoday.com/chess/",
+  applicationCategory: "GameApplication",
+  operatingSystem: "Any (web browser)",
+  genre: "Board game",
+  playMode: "SinglePlayer",
+  description:
+    "Play chess against the computer right in your browser. Drag the pieces, take on the AI, and see if you can win. Free, no install, no sign-up.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
+---
+
+<Layout
+  title="Play Chess vs Computer Online — Free Browser Game | Useless Today"
+  description="Play chess against the computer free in your browser. Drag the pieces, challenge the AI, and chase checkmate. No download, no sign-up — just a quiet little board to lose yourself in."
+  path="/chess/"
+  schema={schema}
+>
+  <Nav />
+  <main id="main-content">
+    <section class="mx-auto max-w-[1200px] px-4 pt-16 pb-6 sm:px-6">
+      <p class="font-mono text-[12px] uppercase tracking-wide text-mute">
+        Games · gloriously pointless
+      </p>
+      <h1
+        class="mt-3 text-[36px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[48px]"
+      >
+        Chess
+      </h1>
+      <p class="mt-5 max-w-[680px] text-[18px] leading-7 text-body">
+        The oldest time-killer there is, versus a computer that never gets
+        tired of you. Drag your pieces, hunt the king, and see how far you get
+        before the AI has other ideas.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-[1200px] px-4 pb-20 sm:px-6">
+      <div
+        class="ludo-frame mx-auto w-full max-w-[560px] overflow-hidden rounded-xl border border-hairline shadow-float"
+      >
+        <iframe
+          src="/games/chess.html"
+          title="Chess — human vs computer"
+          loading="lazy"
+          allowfullscreen
+          class="block w-full border-0"
+        ></iframe>
+      </div>
+
+      <p class="mx-auto mt-4 max-w-[560px] text-center text-[13px] text-mute">
+        Not fitting on your screen?
+        <a
+          href="/games/chess.html"
+          class="text-link underline decoration-link/40 underline-offset-2 transition-colors hover:decoration-link"
+          >Open it fullscreen →</a
+        >
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .ludo-frame iframe {
+    height: clamp(640px, 100vw + 240px, 880px);
+    background: #1e1e2a;
+  }
+</style>

@@ -1,0 +1,87 @@
+---
+// Carrom King 3D — self-contained game, sandboxed in an <iframe>.
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  name: "Carrom 3D",
+  url: "https://uselesstoday.com/caram/",
+  applicationCategory: "GameApplication",
+  operatingSystem: "Any (web browser)",
+  genre: "Board game",
+  playMode: "SinglePlayer",
+  description:
+    "Play Carrom 3D free in your browser. Flick the striker, pocket your coins, and sink the queen. The classic board game, no install required.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
+---
+
+<Layout
+  title="Play Carrom 3D Online — Free Browser Board Game | Useless Today"
+  description="Play Carrom 3D free in your browser. Drag back the striker, take aim, and flick to pocket your coins and the queen. The classic board game, gloriously playable — no download, no sign-up."
+  path="/caram/"
+  schema={schema}
+  keywords={[
+    "play carrom board game free",
+    "carrom board game online",
+    "play carrom online free",
+    "carrom 3d game",
+    "free carrom game",
+    "carrom game online",
+    "online carrom board",
+    "carrom striker game",
+  ]}
+>
+  <Nav />
+  <main id="main-content">
+    <section class="mx-auto max-w-[1200px] px-4 pt-16 pb-6 sm:px-6">
+      <p class="font-mono text-[12px] uppercase tracking-wide text-mute">
+        Games · gloriously pointless
+      </p>
+      <h1
+        class="mt-3 text-[36px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[48px]"
+      >
+        Carrom
+      </h1>
+      <p class="mt-5 max-w-[680px] text-[18px] leading-7 text-body">
+        Drag back the striker, line up your shot, and flick. Pocket your coins,
+        sink the queen, and rediscover why every family gathering ends in a
+        carrom argument — now in glorious 3D, right in your browser.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-[1200px] px-4 pb-20 sm:px-6">
+      <div
+        class="ludo-frame mx-auto w-full max-w-[640px] overflow-hidden rounded-xl border border-hairline shadow-float"
+      >
+        <iframe
+          src="/games/caram.html"
+          title="Carrom 3D board game"
+          loading="lazy"
+          allowfullscreen
+          class="block w-full border-0"
+        ></iframe>
+      </div>
+
+      <p class="mx-auto mt-4 max-w-[640px] text-center text-[13px] text-mute">
+        Not fitting on your screen?
+        <a
+          href="/games/caram.html"
+          class="text-link underline decoration-link/40 underline-offset-2 transition-colors hover:decoration-link"
+          >Open it fullscreen →</a
+        >
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .ludo-frame iframe {
+    height: clamp(580px, 95vw + 130px, 820px);
+    background: #2c3e50;
+  }
+</style>

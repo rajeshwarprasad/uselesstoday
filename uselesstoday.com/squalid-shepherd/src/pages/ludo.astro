@@ -1,0 +1,94 @@
+---
+// Ludo 3D — an embedded, playable useless game. The game itself is a fully
+// self-contained app at /games/ludo; we sandbox it in an <iframe> so its
+// full-screen body styling never collides with the site nav/footer.
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  name: "Ludo 3D",
+  url: "https://uselesstoday.com/ludo/",
+  applicationCategory: "GameApplication",
+  operatingSystem: "Any (web browser)",
+  genre: "Board game",
+  playMode: ["SinglePlayer", "MultiPlayer"],
+  description:
+    "Play classic Ludo 3D right in your browser — vs the CPU or pass-and-play with up to 4 players. Roll the 3D dice, dodge captures, and race your tokens home. Free, no install.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
+---
+
+<Layout
+  title="Play Ludo 3D Online — Free Browser Board Game | Useless Today"
+  description="Play classic Ludo 3D free in your browser. Take on the CPU or pass-and-play with up to 4 players — roll the 3D dice, capture rivals, and race home. No download, no sign-up."
+  path="/ludo/"
+  schema={schema}
+  keywords={[
+    "play ludo online with friends free",
+    "ludo online with friends",
+    "play ludo online free",
+    "ludo game online",
+    "ludo 3d online",
+    "online ludo multiplayer",
+    "free ludo board game",
+    "play ludo with friends",
+    "ludo king style game",
+  ]}
+>
+  <Nav />
+  <main id="main-content">
+    <section class="mx-auto max-w-[1200px] px-4 pt-16 pb-6 sm:px-6">
+      <p class="font-mono text-[12px] uppercase tracking-wide text-mute">
+        Games · gloriously pointless
+      </p>
+      <h1
+        class="mt-3 text-[36px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[48px]"
+      >
+        Ludo 3D
+      </h1>
+      <p class="mt-5 max-w-[680px] text-[18px] leading-7 text-body">
+        The classic four-colour race, rebuilt with a tumbling 3D dice and a
+        little too much spare time. Beat the CPU, or hand the screen around for
+        pass-and-play with up to four players. Roll a six to break out, capture
+        a rival to send them home, and get all four tokens to the centre first.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-[1200px] px-4 pb-20 sm:px-6">
+      <div
+        class="ludo-frame mx-auto w-full max-w-[640px] overflow-hidden rounded-xl border border-hairline shadow-float"
+      >
+        <iframe
+          src="/games/ludo.html"
+          title="Ludo 3D — playable board game"
+          loading="lazy"
+          allowfullscreen
+          class="block w-full border-0"
+        ></iframe>
+      </div>
+
+      <p class="mx-auto mt-4 max-w-[640px] text-center text-[13px] text-mute">
+        Game not fitting on your screen?
+        <a
+          href="/games/ludo.html"
+          class="text-link underline decoration-link/40 underline-offset-2 transition-colors hover:decoration-link"
+          >Open it fullscreen →</a
+        >
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  /* The embedded game stacks a log, two player rows and a board (board caps at
+     550px). Scale the iframe height with viewport width so it never inner-
+     scrolls on phones yet stays compact on desktop. */
+  .ludo-frame iframe {
+    height: clamp(560px, 92vw + 170px, 800px);
+    background: radial-gradient(circle at center, #2989d8 0%, #1a4a7d 100%);
+  }
+</style>

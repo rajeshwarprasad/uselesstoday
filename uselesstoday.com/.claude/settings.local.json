@@ -1,7 +1,31 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(claude *)",
+      "Read(//c/Users/rajes/**)",
+      "Read(//c/Users/rajes/project1/**)",
+      "Bash(mkdir -p public/games)",
+      "Bash(cp /c/Users/rajes/Downloads/ludo.html public/games/ludo.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://uselesstoday.com/ludo/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://uselesstoday.com/games/ludo.html)",
+      "Bash(curl -s https://uselesstoday.com/ludo/)",
+      "Bash(curl -s https://uselesstoday.com/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" --max-time 20 https://uselesstoday.prasad-rajeshwar.workers.dev/ludo/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" --max-time 20 https://uselesstoday.com/)",
+      "WebFetch(domain:uselesstoday.com)",
+      "Bash(npx wrangler *)",
+      "Bash(curl -sv --max-time 20 https://uselesstoday.com/)",
+      "Bash(curl -s --max-time 20 https://uselesstoday.prasad-rajeshwar.workers.dev/ludo/)",
+      "Bash(curl -s -o /dev/null -w 'final=%{http_code} url=%{url_effective}\\\\n' -L --max-time 25 https://uselesstoday.prasad-rajeshwar.workers.dev/games/ludo.html)",
+      "Bash(curl -s -D - -o /dev/null --max-time 20 https://uselesstoday.prasad-rajeshwar.workers.dev/games/ludo.html)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}\\\\n' --max-time 20 https://uselesstoday.prasad-rajeshwar.workers.dev/ludo/)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}\\\\n' --max-time 20 https://uselesstoday.prasad-rajeshwar.workers.dev/games/ludo)",
+      "Read(//tmp/**)",
+      "Bash(pkill -f \"astro dev\")",
+      "Bash(pkill -f \"node.*astro\")",
+      "Bash(cat package.json)",
+      "Bash(cat squalid-shepherd/package.json)"
     ]
   }
 }

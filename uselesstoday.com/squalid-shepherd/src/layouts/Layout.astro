@@ -12,6 +12,8 @@ interface Props {
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** Keep this page out of search results (error pages). Drops canonical too. */
   noindex?: boolean;
+  /** Page-specific SEO keywords, prepended (more specific) ahead of the site-wide ones. */
+  keywords?: string[];
 }
 
 const SITE = "https://uselesstoday.com";
@@ -23,13 +25,14 @@ const {
   path = "/",
   schema,
   noindex = false,
+  keywords: pageKeywords = [],
 } = Astro.props;
 
 const isHome = path === "/";
 const canonical = SITE + path;
 const ogImage = new URL(image, SITE).href;
 
-const keywords = [
+const baseKeywords = [
   "useless web",
   "the useless web",
   "useless websites",
@@ -41,7 +44,9 @@ const keywords = [
   "another word for useless",
   "useless day",
   "useless",
-].join(", ");
+];
+// Page-specific keywords first (most relevant), de-duped against the site-wide set.
+const keywords = [...new Set([...pageKeywords, ...baseKeywords])].join(", ");
 
 const websiteSchema = {
   "@context": "https://schema.org",
