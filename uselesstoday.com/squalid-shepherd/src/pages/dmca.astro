@@ -1,0 +1,79 @@
+---
+import Page from "../layouts/Page.astro";
+
+const EMAIL = "prasad.rajeshwar@gmail.com";
+---
+
+<Page
+  title="DMCA Notice — Useless Today"
+  description="Useless Today respects intellectual property rights. Submit a DMCA takedown notice for links on our useless web directory — contact our designated agent."
+  path="/dmca/"
+  eyebrow="Legal"
+  heading="DMCA Notice"
+  intro="Useless Today respects the intellectual property rights of others. If you believe content linked from our directory infringes your copyright, please send a notice to our designated agent."
+  updated="30 June 2026"
+>
+  <h2>Designated agent</h2>
+  <p>
+    All DMCA notices should be sent to our designated copyright agent:
+  </p>
+  <p>
+    Rajeshwar Prasad<br />
+    Email: <a href={`mailto:${EMAIL}`}>{EMAIL}</a><br />
+    Subject: <strong>DMCA Notice</strong>
+  </p>
+
+  <h2>What to include</h2>
+  <p>
+    To be effective, your notice must include the following information:
+  </p>
+  <ul>
+    <li>A physical or electronic signature of the copyright owner or their authorized agent.</li>
+    <li>Identification of the copyrighted work you claim has been infringed.</li>
+    <li>Identification of the material that is infringing — specifically, the URL(s) on <a href="https://uselesstoday.com/">uselesstoday.com</a> linking to the allegedly infringing content.</li>
+    <li>Your name, mailing address, telephone number, and email address.</li>
+    <li>A statement that you have a good-faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law.</li>
+    <li>A statement, made under penalty of perjury, that the information in your notice is accurate and that you are the copyright owner or authorized to act on their behalf.</li>
+  </ul>
+
+  <h2>What happens next</h2>
+  <p>
+    We review valid DMCA notices promptly. If the notice is complete and
+    identifies a specific link on our directory, we will remove or disable
+    access to the disputed link. We may also notify the party that submitted
+    the original link and provide them with a copy of your notice.
+  </p>
+
+  <h2>Counter-notice</h2>
+  <p>
+    If you believe a link was removed in error, you may submit a counter-notice
+    with:
+  </p>
+  <ul>
+    <li>Your physical or electronic signature.</li>
+    <li>Identification of the material that was removed and its location before removal.</li>
+    <li>A statement under penalty of perjury that you have a good-faith belief the material was removed due to mistake or misidentification.</li>
+    <li>Your name, address, and telephone number, along with a statement consenting to the jurisdiction of the federal district court for your address (or the district where Useless Today is located if outside the US).</li>
+  </ul>
+  <p>
+    We will forward your counter-notice to the original complainant. If they
+    do not file a court action within 14 business days, we may restore the
+    link.
+  </p>
+
+  <h2>Repeat infringers</h2>
+  <p>
+    In accordance with the DMCA, we maintain a policy to terminate, in
+    appropriate circumstances, the accounts of repeat infringers. Since
+    Useless Today is a directory of links rather than a user-upload platform,
+    this applies to anyone who repeatedly submits links to infringing content
+    after receiving takedown notices.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about this DMCA policy? Email
+    <a href={`mailto:${EMAIL}`}>{EMAIL}</a> or visit our
+    <a href="/contact/">Contact page</a>.
+  </p>
+</Page>
