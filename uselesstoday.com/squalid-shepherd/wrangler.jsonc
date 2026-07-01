@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "uselesstoday",
+  "main": "src/index.ts",
   "compatibility_date": "2026-06-23",
   "assets": {
     "directory": "./dist",

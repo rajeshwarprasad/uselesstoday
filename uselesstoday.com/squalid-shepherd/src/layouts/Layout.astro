@@ -68,13 +68,10 @@ const websiteSchema = {
       (function () {
         try {
           var t =
-            localStorage.getItem("ut_theme") ||
-            (window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light");
+            localStorage.getItem("ut_theme") || "dark";
           document.documentElement.dataset.theme = t;
         } catch (e) {
-          document.documentElement.dataset.theme = "light";
+          document.documentElement.dataset.theme = "dark";
         }
       })();
     </script>
@@ -126,7 +123,7 @@ const websiteSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <meta name="theme-color" content="#fafafa" />
+    <meta name="theme-color" content="#0a0a0a" />
 
     {
       isHome && (
