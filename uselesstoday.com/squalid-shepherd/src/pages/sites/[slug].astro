@@ -1,0 +1,170 @@
+---
+// /sites/[slug]/ — individual useless-site page with SEO copy + related links.
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { LINKS, CATEGORIES } from "../../data/links";
+
+export function getStaticPaths() {
+  return LINKS.map((l) => ({
+    params: {
+      slug: l.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, ""),
+    },
+  }));
+}
+
+const { slug } = Astro.params;
+
+// Find the matching link by generating the same slug pattern.
+const site = LINKS.find(
+  (l) =>
+    l.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "") ===
+    slug,
+);
+
+if (!site) {
+  return Astro.redirect("/sites/");
+}
+
+// Pick 4 related sites from the same category (excluding this one), then fill
+// from other categories if needed.
+const sameCat = LINKS.filter(
+  (l) => l.category === site.category && l.title !== site.title,
+);
+const otherCat = LINKS.filter((l) => l.category !== site.category);
+const related = [...sameCat, ...otherCat].slice(0, 4);
+
+const catLabel =
+  CATEGORIES.find((c) => c.id === site.category)?.label ?? site.category;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.title,
+  url: site.url,
+  description: site.blurb,
+  about: {
+    "@type": "WebSite",
+    name: "Useless Today",
+    url: "https://uselesstoday.com/",
+  },
+};
+---
+
+<Layout
+  title={`${site.title} — Useless Website | Useless Today`}
+  description={`${site.title}: ${site.blurb} Browse more curated useless websites on Useless Today.`}
+  path={`/sites/${slug}/`}
+  schema={schema}
+  keywords={[
+    site.title.toLowerCase(),
+    "useless website",
+    "useless site",
+    "pointless website",
+    `${site.category} useless sites`,
+    "take me to a useless website",
+  ]}
+>
+  <Nav />
+  <main id="main-content">
+    <article class="mx-auto max-w-[760px] px-4 py-20 sm:px-6">
+      <p class="font-mono text-[12px] uppercase tracking-wide text-mute">
+        {catLabel} · useless site
+      </p>
+      <h1
+        class="mt-3 text-[36px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink sm:text-[48px]"
+      >
+        {site.emoji} {site.title}
+      </h1>
+      <p class="mt-5 max-w-[680px] text-[18px] leading-7 text-body">
+        {site.blurb}
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a
+          href={site.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-[16px] font-medium text-on-primary shadow-[var(--shadow-card)] transition-transform hover:scale-[1.03] active:scale-95"
+        >
+          Visit {site.title}
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a
+          href="/sites/"
+          class="inline-flex h-12 items-center rounded-full border border-hairline bg-canvas px-6 text-[16px] font-medium text-ink transition-colors hover:bg-canvas-soft-2"
+        >
+          Browse the wall
+        </a>
+      </div>
+
+      <section class="mt-14">
+        <h2
+          class="text-[24px] font-semibold tracking-[-0.03em] text-ink sm:text-[28px]"
+        >
+          About {site.title}
+        </h2>
+        <p class="mt-4 text-[16px] leading-7 text-body">
+          <strong>{site.title}</strong> is a {site.category} useless website —
+          {site.blurb.toLowerCase().replace(/\.$/, "")}. It's part of the curated
+          wall on <a href="/">Useless Today</a>, a collection of 50+ hand-picked
+          useless websites sorted by mood. Every link is checked regularly so you
+          never hit a dead end.
+        </p>
+        <p class="mt-4 text-[16px] leading-7 text-body">
+          Useless websites like {site.title} are the gloriously pointless corner of
+          the internet — single-serving experiments built for no reason other than
+          to make you smile. They don't ask for your email, they don't track you,
+          and they don't try to sell you anything. They just exist, perfectly
+          uselessly.
+        </p>
+      </section>
+
+      <section class="mt-14">
+        <h2
+          class="text-[24px] font-semibold tracking-[-0.03em] text-ink sm:text-[28px]"
+        >
+          More useless {catLabel.toLowerCase()} sites
+        </h2>
+        <ul class="mt-4 space-y-3">
+          {
+            related.map((r) => (
+              <li class="text-[16px] leading-7 text-body">
+                <a
+                  href={`/sites/${r.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}/`}
+                  class="font-medium text-ink underline decoration-link/40 underline-offset-2 transition-colors hover:decoration-link"
+                >
+                  {r.emoji} {r.title}
+                </a>{" "}
+                — {r.blurb}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <nav class="mt-14" aria-label="Category links">
+        <h2
+          class="text-[24px] font-semibold tracking-[-0.03em] text-ink sm:text-[28px]"
+        >
+          Browse by category
+        </h2>
+        <ul class="mt-4 flex flex-wrap gap-2">
+          {
+            CATEGORIES.map((c) => (
+              <li>
+                <a
+                  href={`/sites/${c.id}/`}
+                  class="inline-flex h-9 items-center rounded-full border border-hairline bg-canvas px-4 text-[14px] text-body transition-colors hover:bg-canvas-soft-2 hover:text-ink"
+                >
+                  {c.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </article>
+  </main>
+  <Footer />
+</Layout>

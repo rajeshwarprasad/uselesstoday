@@ -1,0 +1,105 @@
+---
+// /sites/[category]/ — category landing page with unique SEO copy.
+import Page from "../../layouts/Page.astro";
+import { LINKS, CATEGORIES, type Category } from "../../data/links";
+
+export function getStaticPaths() {
+  return CATEGORIES.map((c) => ({ params: { category: c.id } }));
+}
+
+const { category } = Astro.params;
+const cat = CATEGORIES.find((c) => c.id === category);
+
+if (!cat) {
+  return Astro.redirect("/sites/");
+}
+
+const sites = LINKS.filter((l) => l.category === cat.id);
+
+const descriptions: Record<Category, { title: string; desc: string; intro: string; copy: string }> = {
+  silly: {
+    title: "Silly Useless Sites — Bounce, Slap, Scroll | Useless Today",
+    desc: "The silliest useless websites on the internet. Bouncing cats, eel slaps, endless scrolling dogs — pure, dumb joy, hand-picked and working.",
+    intro: "The dumbest, most delightful corners of the useless web. Bouncing cats, eel slaps, endless dogs — nothing here matters, and that's the point.",
+    copy: "Silly useless sites are the internet at its most honest: a single idea, executed with zero pretence, meant to make you grin. Cat Bounce lets you fling a screen full of cats. Eel Slap lets you, well, slap a man with an eel. Pointer Pointer finds a photo of someone pointing at your cursor. None of it is useful. All of it is perfect.",
+  },
+  relaxing: {
+    title: "Relaxing Useless Sites — Calm, Ambient, Soothing | Useless Today",
+    desc: "The most calming useless websites. Rain sounds, generative silk, star maps — soothing sites to melt the afternoon away.",
+    intro: "When the world is too loud, these useless sites turn the volume down. Rain sounds, gentle visuals, guided breathing — gloriously pointless relaxation.",
+    copy: "Relaxing useless sites are the antidote to productive anxiety. Rainy Mood pipes in rain sounds with no controls and no agenda. A Soft Murmur lets you mix your own ambient soundscape. Window Swap shows you a stranger's view from somewhere on Earth. Silk lets you paint glowing symmetrical patterns. None of it improves your life. That's the beauty.",
+  },
+  weird: {
+    title: "Weird Useless Sites — Bizarre, Hypnotic, Unsettling | Useless Today",
+    desc: "The weirdest useless websites on the internet. Infinite zooms, staggering beauty, endless horses — strange, hypnotic, unforgettable.",
+    intro: "The useless web gets properly strange here. Infinite zoom paintings, worm-like creatures, endless horses — these sites exist in a reality of their own.",
+    copy: "Weird useless sites are the ones you tell your friends about at 2am. Zoomquilt pulls you into an infinitely zooming painting. Staggering Beauty does... something you have to experience. Endless Horse is a horse with an impossibly long body. Trypophobia is holes. Just lots of holes. The weird corner of the useless web is where the internet stops making sense — and starts being art.",
+  },
+  games: {
+    title: "Useless Games — Browser Games to Waste Time | Useless Today",
+    desc: "Free browser games that waste your time gloriously. Cookie Clicker, 2048, The Password Game — no download, no sign-up, just play.",
+    intro: "Perfectly pointless browser games you can play right now. No download, no sign-up, no purpose — just time well wasted.",
+    copy: "Useless games are the heart of the useless web. Cookie Clicker lets you click a cookie and buy a grandma, forever. 2048 traps you in a tile-sliding loop. The Password Game forces you to make increasingly absurd passwords. Neal.fun is a whole vault of clever little time-killers. A Dark Room starts as a tiny text game and slowly becomes an epic. None of these games will change your life. That's exactly why they're perfect.",
+  },
+  art: {
+    title: "Useless Art Sites — Generative, Interactive, Beautiful | Useless Today",
+    desc: "Gloriously useless art websites. Generative brushes, interactive gardens, pixel painting — beautiful experiments with no purpose.",
+    intro: "Art that exists for no reason other than to be beautiful. Generative brushes, interactive gardens, pixel painting — useless art at its finest.",
+    copy: "Useless art sites are the gallery no one asked for — and everyone needs. Bomomo lets you paint with chaotic, generative brushes. Drawing Garden lets you drag to grow plants and sound. Radio Garden lets you spin the globe and tune into live radio stations from anywhere. Make 8-Bit Art lets you pixel-paint your own little scene. These are the sites that remind you the internet was supposed to be fun.",
+  },
+};
+
+const info = descriptions[cat.id];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `${cat.label} Useless Sites — Useless Today`,
+  url: `https://uselesstoday.com/sites/${cat.id}/`,
+  description: info.desc,
+};
+---
+
+<Page
+  title={info.title}
+  description={info.desc}
+  path={`/sites/${cat.id}/`}
+  eyebrow="The wall"
+  heading={`${cat.label} useless sites`}
+  intro={info.intro}
+  schema={schema}
+>
+  <p set:html={info.copy} />
+
+  <h2>All {cat.label} sites ({sites.length})</h2>
+  <ul>
+    {
+      sites.map((s) => (
+        <li>
+          <a
+            href={`/sites/${s.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}/`}
+          >
+            {s.emoji} {s.title}
+          </a>{" "}
+          — {s.blurb}
+        </li>
+      ))
+    }
+  </ul>
+
+  <h2>Explore more categories</h2>
+  <ul>
+    {
+      CATEGORIES.filter((c) => c.id !== cat.id).map((c) => (
+        <li>
+          <a href={`/sites/${c.id}/`}>{c.label}</a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p>
+    Found a useless site we missed? <a href="/contact/">Let us know</a> and
+    we'll add it to the wall.
+  </p>
+</Page>

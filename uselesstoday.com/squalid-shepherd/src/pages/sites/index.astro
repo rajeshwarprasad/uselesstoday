@@ -1,0 +1,52 @@
+---
+// /sites/ — index of every useless site on the wall, grouped by category.
+import Page from "../../layouts/Page.astro";
+import { LINKS, CATEGORIES } from "../../data/links";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "All Useless Sites — Useless Today",
+  url: "https://uselesstoday.com/sites/",
+  description:
+    "Browse every curated useless site on Useless Today. 50+ hand-picked, regularly checked websites sorted into Silly, Relaxing, Weird, Games, and Art categories.",
+};
+---
+
+<Page
+  title="All Useless Sites — Browse the Full Wall | Useless Today"
+  description="Browse all 50+ curated useless websites on Useless Today. Filter by Silly, Relaxing, Weird, Games, or Art — every link hand-picked, every link works."
+  path="/sites/"
+  eyebrow="The wall"
+  heading="Every useless site, in one place."
+  intro="50+ hand-picked, regularly checked useless websites. Browse by category or dive straight in."
+  schema={schema}
+>
+  {
+    CATEGORIES.map((cat) => {
+      const sites = LINKS.filter((l) => l.category === cat.id);
+      return (
+        <section>
+          <h2>
+            <a href={`/sites/${cat.id}/`}>{cat.label}</a> ({sites.length})
+          </h2>
+          <ul>
+            {sites.map((s) => (
+              <li>
+                <a href={`/sites/${s.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}/`}>
+                  {s.emoji} {s.title}
+                </a>{" "}
+                — {s.blurb}
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    })
+  }
+
+  <p>
+    Found a useless site we missed? <a href="/contact/">Let us know</a> and
+    we'll add it to the wall.
+  </p>
+</Page>

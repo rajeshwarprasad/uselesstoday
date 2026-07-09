@@ -20,7 +20,7 @@ const SITE = "https://uselesstoday.com";
 
 const {
   title = "The Useless Web — Useless Websites to Waste Time | Useless Today",
-  description = "The useless web, upgraded. Useless Today is a wall of curated useless websites plus a 'take me to a useless website' button. Waste time, gloriously.",
+  description = "Waste time gloriously. Useless Today is a curated wall of 50+ useless websites — browse by mood or hit 'Surprise me.' Every link opens in a new tab.",
   image = "/og-image.png",
   path = "/",
   schema,
@@ -138,6 +138,21 @@ const websiteSchema = {
         <script
           type="application/ld+json"
           set:html={JSON.stringify(schema)}
+        />
+      )
+    }
+    {
+      !noindex && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/" },
+              ...(path !== "/" ? [{ "@type": "ListItem", "position": 2, "name": title.split("—")[0].split("|")[0].trim(), "item": canonical }] : []),
+            ],
+          })}
         />
       )
     }
