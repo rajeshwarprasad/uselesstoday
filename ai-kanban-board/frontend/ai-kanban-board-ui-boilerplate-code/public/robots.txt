@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /my-tasks
+Disallow: /calendar
+Disallow: /team
+Disallow: /settings
+Disallow: /board/
+Disallow: /create-company
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password/
+Disallow: /invite/
+Disallow: /company-invite/
+
+Sitemap: https://flowupboard.com/sitemap.xml

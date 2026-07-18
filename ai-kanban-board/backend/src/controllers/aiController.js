@@ -1,6 +1,6 @@
 const { query } = require("../config/db");
 const ApiError = require("../utils/ApiError");
-const asyncHandler = require("../utils/asyncHandler");
+const asyncHandler = require("../middleware/asyncHandler");
 const ai = require("../services/aiService");
 const { emitToBoard, logActivity } = require("../realtime");
 
@@ -17,7 +17,7 @@ const generateTasks = asyncHandler(async (req, res) => {
 
     const colRes = await query("SELECT id FROM columns WHERE id = $1 AND board_id = $2", [
         req.body.column_id,
-        req.board.id,
+        req.boardAccess.id,
     ]);
     if (!colRes.rows.length) throw ApiError.badRequest("column_id does not belong to this board");
 
@@ -31,16 +31,16 @@ const generateTasks = asyncHandler(async (req, res) => {
     for (const s of suggestions) {
         pos += 1000;
         const { rows } = await query(
-            `INSERT INTO tasks (board_id, column_id, title, description, priority, position, created_by)
-                VALUES ($1, $2, $3, $4, $5, $6, $7)
+            `INSERT INTO tasks (board_id, column_id, title, description, priority, start_date, position, created_by)
+                VALUES ($1, $2, $3, $4, $5, now(), $6, $7)
                 RETURNING *`,
-            [req.board.id, req.body.column_id, s.title, s.description, s.priority, pos, req.user.id]
+            [req.boardAccess.id, req.body.column_id, s.title, s.description, s.priority, pos, req.user.id]
         );
         created.push(rows[0]);
-        emitToBoard(req.board.id, "task:created", rows[0]);
+        emitToBoard(req.boardAccess.id, "task:created", rows[0]);
     }
     await logActivity({
-        boardId: req.board.id,
+        boardId: req.boardAccess.id,
         userId: req.user.id,
         action: "ai.generated_tasks",
         message: `${req.user.name} generated ${created.length} tasks with AI`,
@@ -57,7 +57,7 @@ const breakdownTask = asyncHandler(async (req, res) => {
     if (req.body.taskId) {
         const { rows } = await query(
             "SELECT title, description FROM tasks WHERE id = $1 AND board_id = $2",
-            [req.body.taskId, req.board.id]
+            [req.body.taskId, req.boardAccess.id]
         );
         if (!rows.length) throw ApiError.notFound("Task not found");
         title = rows[0].title;
@@ -65,19 +65,24 @@ const breakdownTask = asyncHandler(async (req, res) => {
     }
 
     if (!title) throw ApiError.badRequest("A task title (or taskId) is required");
-    const subtasks = await ai.breakdownTask(title, description, count);
-    res.json({ subtasks });
+    try {
+        const subtasks = await ai.breakdownTask(title, description, count);
+        res.json({ subtasks });
+    } catch (err) {
+        console.error("Breakdown AI error:", err.message, err.stack);
+        throw err;
+    }
 });
 
 const summarizeBoard = asyncHandler(async (req, res) => {
     const [boardRes, colsRes, tasksRes] = await Promise.all([
-        query("SELECT title FROM boards WHERE id = $1", [req.board.id]),
+        query("SELECT title FROM boards WHERE id = $1", [req.boardAccess.id]),
         query(
             "SELECT id, title FROM columns WHERE board_id = $1 ORDER BY position ASC",
-            [req.board.id]
+            [req.boardAccess.id]
         ),
         query("SELECT column_id, title, priority FROM tasks WHERE board_id = $1", [
-            req.board.id
+            req.boardAccess.id
         ]),
     ]);
 

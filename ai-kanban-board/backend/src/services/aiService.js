@@ -1,19 +1,8 @@
-const { GoogleGenAI } = require("@google/genai");
+const https = require("https");
 const ApiError = require("../utils/ApiError");
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
-
-let client = null;
-const getClient = () => {
-    const key = process.env.GEMINI_API_KEY;
-        if (!key || key === "your-gemini-api-key") {
-            throw new ApiError(503, "Gemini key is not configured on the server");
-    }
-        if (!client) {
-            client = new GoogleGenAI({ apiKey: key });
-    }
-    return client;
-};
+const MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
+const API_KEY = process.env.GEMINI_API_KEY;
 
 const extractJson = (text) => {
     const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
@@ -28,26 +17,82 @@ const extractJson = (text) => {
     }
 };
 
-const runPrompt = async (prompt) => {
- try {
-    const response = await getClient().models.generateContent({
-        model: MODEL,
-        contents: prompt,
-    });
-    return response.text;
-  } catch (err) {
-     if (err.isApiError) throw err;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-    const status = err.status || err.statusCode;
-    if (status === 429) {
-        throw new ApiError(429, "AI quota exceeded. Check your Gemini plan/billing and try again later.");
+const runPrompt = async (prompt, retries = 3) => {
+    if (!API_KEY) throw new ApiError(503, "Gemini key is not configured on the server");
+
+    const data = JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] });
+    const path = `/v1beta/models/${MODEL}:generateContent`;
+
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            const result = await new Promise((resolve, reject) => {
+                const req = https.request({
+                    hostname: "generativelanguage.googleapis.com",
+                    path,
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-goog-api-key": API_KEY,
+                        "Content-Length": Buffer.byteLength(data),
+                    },
+                    timeout: 60000,
+                }, (res) => {
+                    let body = "";
+                    res.on("data", (d) => (body += d));
+                    res.on("end", () => {
+                        try {
+                            const json = JSON.parse(body);
+                            if (res.statusCode === 429) {
+                                const retryDelay = attempt < retries ? 15000 * attempt : 0;
+                                console.warn(`Gemini 429 (attempt ${attempt}/${retries}), retry in ${retryDelay}ms`);
+                                return reject({ retryable: true, delay: retryDelay, status: 429 });
+                            }
+                            if (res.statusCode === 503 || res.statusCode === 500) {
+                                const retryDelay = attempt < retries ? 5000 * attempt : 0;
+                                console.warn(`Gemini ${res.statusCode} (attempt ${attempt}/${retries}), retry in ${retryDelay}ms`);
+                                return reject({ retryable: true, delay: retryDelay, status: res.statusCode });
+                            }
+                            if (res.statusCode >= 400) {
+                                console.error("Gemini API error:", res.statusCode, body.slice(0, 300));
+                                return reject(new ApiError(502, "The AI service returned an error."));
+                            }
+                            resolve(json.candidates?.[0]?.content?.parts?.[0]?.text || "");
+                        } catch (e) {
+                            reject(new ApiError(502, "Failed to parse AI response"));
+                        }
+                    });
+                });
+                req.on("timeout", () => {
+                    req.destroy();
+                    reject({ retryable: true, delay: 5000 * attempt, status: 0 });
+                });
+                req.on("error", (e) => {
+                    if (e.code === "ECONNRESET" || e.code === "ETIMEDOUT") {
+                        return reject({ retryable: true, delay: 5000 * attempt, status: 0 });
+                    }
+                    console.error("Gemini request failed:", e.message);
+                    reject(new ApiError(502, "The AI service is temporarily unavailable."));
+                });
+                req.write(data);
+                req.end();
+            });
+
+            return result;
+        } catch (err) {
+            if (err.retryable && err.delay && attempt < retries) {
+                await sleep(err.delay);
+                continue;
+            }
+            if (err.retryable) {
+                throw new ApiError(503, "The AI service is temporarily unavailable after retries.");
+            }
+            throw err;
+        }
     }
-    if (status === 400 || status === 401 || status === 403) {
-        throw new ApiError(503, "AI request rejected - verify your GEMINI_API_KEY is valid.");
-    }
-    console.error("Gemini request failed:", err.message);
-    throw new ApiError(502, "The AI service is temporarily unavailable. Please try again.");
-  }
+
+    throw new ApiError(502, "The AI service is temporarily unavailable after retries.");
 };
 
 const VALID_PRIORITIES = ["low", "medium", "high", "urgent"];
