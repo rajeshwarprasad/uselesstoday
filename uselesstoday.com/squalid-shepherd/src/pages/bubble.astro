@@ -3,6 +3,46 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import GameGuide from "../components/GameGuide.astro";
+
+const howTo = [
+  "Press Play to deal a fresh board. The launcher loads a colour for you automatically.",
+  "Move the mouse, or drag a finger, to aim. A dotted line shows the path, including bounces off the side walls.",
+  "Click or tap to fire. The bubble sticks to the first one it touches.",
+  "Group three or more of the same colour to pop them. Anything left hanging with no connection to the top drops away for bonus points.",
+  "Keep the stack off the bottom row. If the bubbles reach you, the round is over and your score is final.",
+];
+
+const tips = [
+  "Bank shots off the side walls to reach gaps you cannot hit straight on.",
+  "Aim for the bubbles holding up the biggest cluster; one good pop can drop a dozen at once.",
+  "Clear the lowest rows first when the stack creeps close — it buys you breathing room.",
+  "Play in portrait on a phone; the board is built for a tall screen.",
+  "Use the fullscreen link if the frame feels cramped.",
+];
+
+const faqs = [
+  {
+    q: "Is Bubble Shooter free to play?",
+    a: "Yes. It runs entirely in the browser with no install, no account and no payment. The whole game is a single page.",
+  },
+  {
+    q: "Does it work on phones and tablets?",
+    a: "Yes. Aim with your finger and tap to fire; the board scales to fit the screen.",
+  },
+  {
+    q: "Is there a time limit?",
+    a: "No. Nothing counts down. The only pressure is the stack of bubbles creeping towards the bottom row.",
+  },
+  {
+    q: "Can I play it fullscreen?",
+    a: "Yes. Use the fullscreen link under the game, or open /games/bubble.html directly in a tab.",
+  },
+  {
+    q: "Does it save my high score?",
+    a: "No. Scores reset when you reload or start again, which keeps the game free of accounts and tracking.",
+  },
+];
 
 const schema = {
   "@context": "https://schema.org",
@@ -20,8 +60,8 @@ const schema = {
 ---
 
 <Layout
-  title="Play Bubble Shooter Online — Free Browser Game | Useless Today"
-  description="Play Bubble Shooter free in your browser. Aim, match three or more of a colour, and pop your way to a cleared board. The classic satisfying time-waster — no download, no sign-up."
+  title="Bubble Shooter — Free Online Game | Useless Today"
+  description="Play Bubble Shooter free in your browser. Aim, match three of a colour, and pop the board clear — no download, no sign-up, no timer."
   path="/bubble/"
   schema={schema}
   keywords={[
@@ -75,6 +115,13 @@ const schema = {
         >
       </p>
     </section>
+
+    <GameGuide
+      intro="Bubble Shooter is the arcade classic in its purest form: a wall of coloured bubbles creeps downward, a launcher sits at the bottom, and the only thing between order and chaos is your aim. There is no timer, no story and no reason for any of it, which is exactly why it works as a five-minute reset."
+      howTo={howTo}
+      tips={tips}
+      faqs={faqs}
+    />
   </main>
   <Footer />
 </Layout>

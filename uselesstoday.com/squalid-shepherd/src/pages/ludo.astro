@@ -5,6 +5,46 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import GameGuide from "../components/GameGuide.astro";
+
+const howTo = [
+  "Pick a mode on the opening screen: one player against the CPU, or local pass-and-play for up to four.",
+  "Click the dice on your turn. It tumbles, lands, and the number decides what you can do.",
+  "Roll a six to bring a token out of your yard. A six also earns you another roll.",
+  "Click any glowing token to move it that many squares around the track.",
+  "Land on a rival token to send it back to their yard. Get all four tokens into the centre to win.",
+];
+
+const tips = [
+  "Star squares are safe. Park a token there when somebody is closing in.",
+  "Keep your tokens spread out so one unlucky roll cannot wreck the whole game.",
+  "Leave a token or two in the yard as insurance; a six brings them back out.",
+  "In pass-and-play, use the log to keep track of what every colour rolled.",
+  "On a phone, rotate to landscape for a bigger board and easier taps.",
+];
+
+const faqs = [
+  {
+    q: "Is Ludo 3D free to play?",
+    a: "Yes. It runs in the browser with no install, no account and no payment.",
+  },
+  {
+    q: "Can I play Ludo with friends online?",
+    a: "Not online, no. There is a local pass-and-play mode for up to four people sharing one screen, plus a one-player mode against the CPU.",
+  },
+  {
+    q: "What does rolling a six do?",
+    a: "A six gets a token out of your yard and gives you another turn. Three sixes in a row is usually punished, just like the real game.",
+  },
+  {
+    q: "How do I capture an opponent?",
+    a: "Land exactly on their square. Their token goes back to the yard, unless it is sitting on a star safe square.",
+  },
+  {
+    q: "Does it work on phones and tablets?",
+    a: "Yes. Tap the dice and tap a token; the board scales to the screen.",
+  },
+];
 
 const schema = {
   "@context": "https://schema.org",
@@ -22,8 +62,8 @@ const schema = {
 ---
 
 <Layout
-  title="Play Ludo 3D Online — Free Browser Board Game | Useless Today"
-  description="Play classic Ludo 3D free in your browser. Take on the CPU or pass-and-play with up to 4 players — roll the 3D dice, capture rivals, and race home. No download, no sign-up."
+  title="Ludo 3D — Free Online Board Game | Useless Today"
+  description="Play Ludo 3D free in your browser. Roll the dice, take on the CPU or pass-and-play with four players, capture rivals, and race home."
   path="/ludo/"
   schema={schema}
   keywords={[
@@ -79,6 +119,13 @@ const schema = {
         >
       </p>
     </section>
+
+    <GameGuide
+      intro="Ludo has ruined more family evenings than almost any board game, and this 3D build keeps the arguments intact while removing the setup. Four colours, four tokens each, one dice, and a home column that always seems one roll further away than you thought."
+      howTo={howTo}
+      tips={tips}
+      faqs={faqs}
+    />
   </main>
   <Footer />
 </Layout>

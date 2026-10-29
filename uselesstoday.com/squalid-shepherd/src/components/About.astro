@@ -2,6 +2,13 @@
 // Long-form, indexable SEO copy (~600 words) + FAQ. Styled with design tokens,
 // so it inherits dark mode for free. The FAQ markup is mirrored in FAQPage
 // JSON-LD below for rich results.
+import { LINKS } from "../data/links";
+
+const checked = new Intl.DateTimeFormat("en-GB", {
+  month: "long",
+  year: "numeric",
+}).format(new Date());
+
 const faqs = [
   {
     q: "What's another word for useless? (useless synonym)",
@@ -21,43 +28,41 @@ const faqs = [
   },
 ];
 
-// A second group for the real, human questions people actually search. Answers
-// here use HTML (rendered with set:html), and the same markup is reused in the
-// FAQPage JSON-LD text below. These deserve a kind, honest tone — not jokes.
-const realFaqs = [
+// Site-specific questions people actually ask about this project. Answers use
+// HTML (rendered with set:html) and the same markup feeds the FAQPage JSON-LD.
+const siteFaqs = [
   {
-    q: "Is the appendix useless?",
-    a: "<p>Not really. The appendix was long dismissed as a useless, vestigial organ, but newer research suggests it acts as a 'safe house' for good gut bacteria and plays a small role in the immune system. You can live a healthy life without it, but calling it completely useless isn't quite fair.</p>",
+    q: "How many useless websites are on Useless Today?",
+    a: `<p>${LINKS.length} hand-picked sites, plus five browser games built into the site. The wall grows whenever we find something that earns its place, and shrinks whenever a link stops working. Nothing here is submitted automatically — every entry is reviewed by a person.</p>`,
   },
   {
-    q: "Why am I so dumb and useless?",
-    a: "<p>You almost certainly aren't either of those things — that's a harsh thought, not a fact. Brains are cruel narrators when we're tired, stressed, or burned out, and struggling with something hard doesn't make you dumb or useless. Try talking to yourself the way you'd talk to a friend. If that voice sticks around, please reach out to someone you trust or a mental-health professional. You deserve support.</p>",
+    q: "Is Useless Today free?",
+    a: "<p>Yes. There is no account, no sign-up and no paywall. The site is a set of static pages on Cloudflare's network, which keeps it cheap enough to run without asking anything from you.</p>",
   },
   {
-    q: "Why am I so useless?",
-    a: "<p>Feeling useless usually says more about your energy levels than your actual worth. Exhaustion, comparison, and doing too much for too long all make us feel like we're falling short. You're not a machine, and your value isn't measured in output. Rest is allowed, and a slow day doesn't cancel out everything you are.</p>",
+    q: "How often are the links checked?",
+    a: `<p>Regularly, and the date is printed on every site page (currently ${checked}). If a link dies between checks, the contact page is the fastest way to flag it and it gets replaced.</p>`,
   },
   {
-    q: "Am I useless?",
-    a: "<p>No. No person is useless. Your worth doesn't depend on how productive you were today, how you compare to anyone else, or what your inner critic is shouting. If you're asking the question because you're hurting, that's worth taking seriously — talk to someone who cares about you.</p>",
+    q: "Can I suggest a useless website?",
+    a: '<p>Please do. Send the URL through the <a href="/contact/">contact page</a> with a sentence about why it deserves a spot. Hand-picked means human-reviewed, so not everything makes the wall, but everything gets looked at.</p>',
   },
   {
-    q: "Why do I feel useless?",
-    a: "<p>Feelings of uselessness often come from burnout, depression, loneliness, comparison, or expectations that were never realistic in the first place. The important thing to remember is that feelings aren't facts — feeling useless and being useless are not the same. If the feeling lingers or gets heavy, please consider speaking with a doctor or counsellor; this is a common, treatable thing, and you don't have to carry it alone.</p>",
-  },
-  {
-    q: "Why am I useless?",
-    a: "<p>You're not — but the fact that you're asking means you're being hard on yourself, and that's worth gentleness, not judgement. A bad day, a bad week, or a long stretch of feeling stuck doesn't define you. Small steps count, rest counts, and reaching out for help is a strength, not a failure.</p>",
+    q: "Do the links open in a new tab?",
+    a: "<p>Yes. Every outbound link opens in a new tab so the wall stays exactly where you left it, ready for the next pointless click.</p>",
   },
 ];
 
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: [...faqs, ...realFaqs].map((f) => ({
+  mainEntity: [...faqs, ...siteFaqs].map((f) => ({
     "@type": "Question",
     name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: f.a.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim(),
+    },
   })),
 };
 ---
@@ -126,25 +131,7 @@ const faqSchema = {
     </h2>
     <dl class="mt-6 divide-y divide-hairline border-y border-hairline">
       {
-        faqs.map((f) => (
-          <div class="py-5">
-            <dt class="text-[16px] font-semibold tracking-tight text-ink">{f.q}</dt>
-            <dd class="mt-2 text-[15px] leading-7 text-body">{f.a}</dd>
-          </div>
-        ))
-      }
-    </dl>
-
-    <h3 class="mt-12 text-[20px] font-semibold tracking-tight text-ink">
-      Feeling useless? You're not.
-    </h3>
-    <p class="mt-2 text-[15px] leading-7 text-body">
-      Some of the most-searched “useless” questions aren't really about websites at all. Here are
-      honest, kinder answers.
-    </p>
-    <dl class="mt-6 divide-y divide-hairline border-y border-hairline">
-      {
-        realFaqs.map((f) => (
+        [...faqs, ...siteFaqs].map((f) => (
           <div class="py-5">
             <dt class="text-[16px] font-semibold tracking-tight text-ink">{f.q}</dt>
             <dd class="mt-2 text-[15px] leading-7 text-body" set:html={f.a} />
@@ -152,6 +139,21 @@ const faqSchema = {
         ))
       }
     </dl>
+
+    <h3 class="mt-12 text-[20px] font-semibold tracking-tight text-ink">
+      How the wall stays working
+    </h3>
+    <p class="mt-2 text-[15px] leading-7 text-body">
+      Every link is opened by a human before it is added, then rechecked
+      periodically — the current sweep date ({checked}) is printed on each site
+      page. If something has died, been taken over by ads, or stopped being
+      pointless in a nice way, it comes off the wall. Broken links get replaced,
+      not left to rot.
+    </p>
+    <p class="mt-3 text-[15px] leading-7 text-body">
+      Curated and maintained by Rajeshwar Prasad. Suggestions, corrections and
+      complaints all go to the <a href="/contact/">contact page</a>.
+    </p>
   </div>
 
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

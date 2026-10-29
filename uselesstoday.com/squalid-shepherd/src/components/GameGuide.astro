@@ -1,0 +1,98 @@
+---
+// Visible how-to-play / tips / FAQ copy for the built-in games.
+// The FAQ answers are mirrored in FAQPage JSON-LD so they can win rich
+// results, and the visible copy gives each game page real, indexable content
+// instead of an iframe and a one-line intro.
+interface Faq {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  /** Short intro above the guide. */
+  intro: string;
+  /** Numbered "how to play" steps, in order. */
+  howTo: string[];
+  /** Unordered tips, each a single practical sentence or two. */
+  tips: string[];
+  faqs: Faq[];
+}
+
+const { intro, howTo, tips, faqs } = Astro.props;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+
+<article class="mx-auto max-w-[760px] px-4 pb-20 sm:px-6">
+  <p class="text-[16px] leading-7 text-body">{intro}</p>
+
+  <h2 class="mt-12 text-[24px] font-semibold tracking-[-0.03em] text-ink sm:text-[28px]">
+    How to play
+  </h2>
+  <ol class="mt-4 space-y-3">
+    {
+      howTo.map((step, i) => (
+        <li class="flex gap-3 text-[16px] leading-7 text-body">
+          <span
+            aria-hidden="true"
+            class="mt-[3px] flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-hairline bg-canvas-soft font-mono text-[12px] text-mute"
+          >
+            {i + 1}
+          </span>
+          <span>{step}</span>
+        </li>
+      ))
+    }
+  </ol>
+
+  <h2 class="mt-12 text-[24px] font-semibold tracking-[-0.03em] text-ink sm:text-[28px]">
+    Tips and tricks
+  </h2>
+  <ul class="mt-4 space-y-2">
+    {
+      tips.map((tip) => (
+        <li class="flex gap-3 text-[16px] leading-7 text-body">
+          <span aria-hidden="true" class="mt-[2px] text-mute">
+            —
+          </span>
+          <span>{tip}</span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <h2 class="mt-12 text-[24px] font-semibold tracking-[-0.03em] text-ink sm:text-[28px]">
+    Frequently asked questions
+  </h2>
+  <dl class="mt-4 divide-y divide-hairline border-y border-hairline">
+    {
+      faqs.map((f) => (
+        <div class="py-5">
+          <dt class="text-[16px] font-semibold tracking-tight text-ink">
+            {f.q}
+          </dt>
+          <dd class="mt-2 text-[15px] leading-7 text-body">{f.a}</dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  <p class="mt-8 text-[15px] leading-7 text-body">
+    Want something even less demanding? The{" "}
+    <a
+      href="/sites/games/"
+      class="text-link underline decoration-link/40 underline-offset-2 transition-colors hover:decoration-link"
+      >games category</a
+    > on the wall has a handful of other ways to lose an afternoon.
+  </p>
+</article>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

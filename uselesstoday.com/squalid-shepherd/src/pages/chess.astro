@@ -3,6 +3,46 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import GameGuide from "../components/GameGuide.astro";
+
+const howTo = [
+  "Click one of your white pieces to select it. Every legal destination square lights up.",
+  "Click a highlighted square to move, or drag the piece there instead.",
+  "The computer replies automatically, usually within a second or two.",
+  "Use Undo to take back the last move, or Reset to start a fresh game.",
+  "The game ends at checkmate, stalemate, or resignation-by-closing-the-tab.",
+];
+
+const tips = [
+  "Develop knights and bishops before pushing pawns; the AI punishes slow openings.",
+  "Castle early. A king stuck in the middle is a target for the rest of the game.",
+  "Undo is there for experiments: try a line, see the reply, then take it back.",
+  "Trade pieces when you are ahead in material and the board opens up.",
+  "Watch for forks and pins. The computer sets them more often than it blunders.",
+];
+
+const faqs = [
+  {
+    q: "Do I need an account to play?",
+    a: "No. There is no sign-up, no login and no download. The board loads and you start playing.",
+  },
+  {
+    q: "Can I play against another person?",
+    a: "Not on this page. You play white against the computer; local multiplayer is not supported here.",
+  },
+  {
+    q: "Which colour do I play?",
+    a: "You are always white and move first. The computer takes black.",
+  },
+  {
+    q: "Is it full chess with all the rules?",
+    a: "Yes — castling, en passant and pawn promotion are all implemented, along with check and checkmate detection.",
+  },
+  {
+    q: "Does it work on a phone?",
+    a: "Yes. Tap to select a piece and tap again to move. The board scales to the screen, and fullscreen gives you more room.",
+  },
+];
 
 const schema = {
   "@context": "https://schema.org",
@@ -20,8 +60,8 @@ const schema = {
 ---
 
 <Layout
-  title="Play Chess vs Computer Online — Free Browser Game | Useless Today"
-  description="Play chess against the computer free in your browser. Drag the pieces, challenge the AI, and chase checkmate. No download, no sign-up — just a quiet little board to lose yourself in."
+  title="Chess vs Computer — Free Online Game | Useless Today"
+  description="Play chess against the computer free in your browser. Move by clicking or dragging, undo any mistake, and chase checkmate."
   path="/chess/"
   schema={schema}
   keywords={[
@@ -74,6 +114,13 @@ const schema = {
         >
       </p>
     </section>
+
+    <GameGuide
+      intro="Chess against a computer is either humbling or quietly addictive, depending on how the first ten moves go. This build is deliberately plain: a board, the full rules, timers for both sides, and an opponent that will punish loose pieces without taking twenty minutes over every move."
+      howTo={howTo}
+      tips={tips}
+      faqs={faqs}
+    />
   </main>
   <Footer />
 </Layout>

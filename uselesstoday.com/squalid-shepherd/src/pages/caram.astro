@@ -3,6 +3,46 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import GameGuide from "../components/GameGuide.astro";
+
+const howTo = [
+  "Press Play. Your striker sits on the near baseline and you shoot first.",
+  "Drag the striker left or right along the line to choose your angle of approach.",
+  "Pull back away from the striker, like a slingshot. The further you pull, the harder the flick.",
+  "Release to shoot. Any white coin that drops into a pocket stays down and scores.",
+  "Clear your coins, take the queen for 50 points, and finish with the higher score. Sinking the striker is a foul.",
+];
+
+const tips = [
+  "Thin cuts along the edge pocket more reliably than head-on blasts.",
+  "Try to leave the striker near the middle so your next shot has options.",
+  "Break clusters up early; loose coins are easier to pocket than packed ones.",
+  "The queen is worth 50 points, but only chase her when you have a clean line.",
+  "Gentle drags are more accurate than hard ones on short shots.",
+];
+
+const faqs = [
+  {
+    q: "Is Carrom 3D free to play?",
+    a: "Yes. The game runs in the browser with no install, no account and no payment.",
+  },
+  {
+    q: "Do I play against a person or the computer?",
+    a: "You play the white coins against a CPU opponent, which takes its turn automatically after yours.",
+  },
+  {
+    q: "How do I aim and shoot?",
+    a: "Drag the striker along the baseline to set your angle, pull back away from it to build power, then release to flick.",
+  },
+  {
+    q: "What counts as a foul?",
+    a: "Sinking the striker is a foul — the game flashes a warning. Keep the striker on the board and let the coins do the work.",
+  },
+  {
+    q: "Does it work on a phone or tablet?",
+    a: "Yes. Touch and drag replaces the mouse for both aiming and pulling back the striker.",
+  },
+];
 
 const schema = {
   "@context": "https://schema.org",
@@ -20,8 +60,8 @@ const schema = {
 ---
 
 <Layout
-  title="Play Carrom 3D Online — Free Browser Board Game | Useless Today"
-  description="Play Carrom 3D free in your browser. Drag back the striker, take aim, and flick to pocket your coins and the queen. The classic board game, gloriously playable — no download, no sign-up."
+  title="Carrom 3D — Free Online Board Game | Useless Today"
+  description="Play Carrom 3D free in your browser. Drag the striker, pull back, and flick your coins into the pockets. No download, no sign-up."
   path="/caram/"
   schema={schema}
   keywords={[
@@ -75,6 +115,13 @@ const schema = {
         >
       </p>
     </section>
+
+    <GameGuide
+      intro="Carrom is the tabletop game nobody bothers to explain properly: you flick a striker, coins scatter everywhere, and somebody argues about a foul. This version puts a 3D board in your browser, gives you the white coins, and hands the black ones to a CPU opponent with a suspiciously good line in thin cuts."
+      howTo={howTo}
+      tips={tips}
+      faqs={faqs}
+    />
   </main>
   <Footer />
 </Layout>

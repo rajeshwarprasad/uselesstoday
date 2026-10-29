@@ -4,6 +4,46 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import GameGuide from "../components/GameGuide.astro";
+
+const howTo = [
+  "Type a name on the cover, or leave it blank to get a generic “For Someone Special” card.",
+  "Click Cut Ribbon to open the card.",
+  "Click anywhere on a page to turn it. Each page holds a short message and a date.",
+  "At the end, answer the proposal to unlock the (very scientific) love calculator.",
+  "Use the copy-link button to share a personalised version; the name travels inside the URL.",
+];
+
+const tips = [
+  "Add the name before you copy the link, otherwise the card arrives anonymous.",
+  "The card works best on a phone held in portrait, like a real folded card.",
+  "Turn pages slowly; each one is a single message rather than a wall of text.",
+  "Send it on the day itself instead of a week early, if you can manage the timing.",
+  "It is a link, not an attachment, so it will not get stuck in spam filters.",
+];
+
+const faqs = [
+  {
+    q: "Is the Valentine card free?",
+    a: "Yes. There is no payment, no account and no app to install. It is a single page you can open or share.",
+  },
+  {
+    q: "Can I put someone's name on it?",
+    a: "Yes. Type the name on the cover, then copy the link. The name is stored in the URL, so the card opens personalised for whoever you send it to.",
+  },
+  {
+    q: "Is this a real card or a game?",
+    a: "Neither, really. It is a short interactive story: a cover, a ribbon to cut, a page per day, a proposal and a love calculator at the end.",
+  },
+  {
+    q: "Do I need to install anything?",
+    a: "No. It runs in any modern browser on a phone, tablet or desktop.",
+  },
+  {
+    q: "Can I send it by text or email?",
+    a: "Yes. Copy the link and paste it wherever you like; nothing else needs to travel with it.",
+  },
+];
 
 const schema = {
   "@context": "https://schema.org",
@@ -16,8 +56,8 @@ const schema = {
 ---
 
 <Layout
-  title="Valentine — A Little Interactive Love Letter | Useless Today"
-  description="An adorable, gloriously pointless Valentine experience right in your browser. Floating hearts and a sweet little journey to share with someone you like. No download, no sign-up."
+  title="Valentine — Interactive Love Letter | Useless Today"
+  description="A tiny interactive Valentine you can personalise and send as a link. Cut the ribbon, turn the pages, and make someone smile."
   path="/valentine/"
   schema={schema}
   keywords={[
@@ -72,6 +112,13 @@ const schema = {
         >
       </p>
     </section>
+
+    <GameGuide
+      intro="This is not really a game. It is a small, hand-built Valentine that opens like a paper card: a cover, a ribbon to cut, a page for each day, a proposal, and a slightly ridiculous love calculator at the end. It takes two minutes, costs nothing, and exists purely to be sent to somebody."
+      howTo={howTo}
+      tips={tips}
+      faqs={faqs}
+    />
   </main>
   <Footer />
 </Layout>

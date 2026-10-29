@@ -8,12 +8,22 @@ const schema = {
   url: "https://uselesstoday.com/about/",
   description:
     "About Useless Today — the curated useless web. Who we are, why we built a wall of beautifully pointless websites, and what we believe about wasting time on purpose.",
+  author: {
+    "@type": "Person",
+    name: "Rajeshwar Prasad",
+    url: "https://uselesstoday.com/about/",
+  },
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Useless Today",
+    url: "https://uselesstoday.com/",
+  },
 };
 ---
 
 <Page
   title="About Us — Useless Today | The Curated Useless Web"
-  description="About Useless Today: who we are and why we built a hand-picked wall of useless websites. Our small mission to make wasting time online a little kinder and a lot more fun."
+  description="About Useless Today: who we are, why we built a hand-picked wall of useless websites, and what we believe about wasting time on purpose."
   path="/about/"
   eyebrow="About us"
   heading="We make wasting time, beautifully."

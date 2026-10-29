@@ -19,6 +19,13 @@ export const CATEGORIES: { id: Category; label: string }[] = [
   { id: "art", label: "Art" },
 ];
 
+/** Canonical URL slug for a link title: "Cat Bounce" -> "cat-bounce". */
+export const slugify = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/-+$/, "");
+
 export const LINKS: UselessLink[] = [
   // ── Silly ──────────────────────────────────────────────
   { title: "Cat Bounce", url: "https://cat-bounce.com", category: "silly", emoji: "🐱", blurb: "Drag and fling a screen full of bouncing cats." },

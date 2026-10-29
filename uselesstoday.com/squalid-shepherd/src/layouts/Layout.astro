@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import interLatin from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import { LINKS } from "../data/links";
 
 interface Props {
   title?: string;
@@ -18,8 +20,8 @@ interface Props {
 const SITE = "https://uselesstoday.com";
 
 const {
-  title = "The Useless Web — Useless Websites to Waste Time | Useless Today",
-  description = "Waste time gloriously. Useless Today is a curated wall of 50+ useless websites — browse by mood or hit 'Surprise me.' Every link opens in a new tab.",
+  title = "The Useless Web — Useless Websites | Useless Today",
+  description = `Waste time gloriously. Useless Today is a hand-picked wall of ${LINKS.length} useless websites — browse by mood or hit 'Surprise me.' Every link opens in a new tab.`,
   image = "/og-image.png",
   path = "/",
   schema,
@@ -55,6 +57,17 @@ const websiteSchema = {
   url: SITE + "/",
   description,
 };
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Useless Today",
+  url: SITE + "/",
+  logo: SITE + "/web-app-manifest-512x512.png",
+  email: "prasad.rajeshwar@gmail.com",
+  description:
+    "Useless Today is a hand-picked wall of useless websites and browser games, sorted by mood.",
+};
 ---
 
 <!doctype html>
@@ -80,6 +93,15 @@ const websiteSchema = {
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="UseLess" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={interLatin}
+      crossorigin
+    />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Google tag (gtag.js) -->
@@ -112,6 +134,7 @@ const websiteSchema = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="The Useless Web — a wall of beautifully pointless websites" />
@@ -126,10 +149,16 @@ const websiteSchema = {
 
     {
       isHome && (
-        <script
-          type="application/ld+json"
-          set:html={JSON.stringify(websiteSchema)}
-        />
+        <>
+          <script
+            type="application/ld+json"
+            set:html={JSON.stringify(websiteSchema)}
+          />
+          <script
+            type="application/ld+json"
+            set:html={JSON.stringify(organizationSchema)}
+          />
+        </>
       )
     }
     {

@@ -6,9 +6,14 @@
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
+    "html_handling": "none",
+    "not_found_handling": "404-page",
+    "run_worker_first": true
   },
+  "routes": [
+    { "pattern": "uselesstoday.com", "custom_domain": true },
+    { "pattern": "www.uselesstoday.com", "custom_domain": true }
+  ],
   "observability": {
     "enabled": true
   }
